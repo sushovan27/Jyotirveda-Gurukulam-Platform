@@ -7,10 +7,12 @@ import { Container } from "@/components/site/Container";
 import { Button } from "@/components/site/Button";
 
 const navLinks: Array<{ href: string; label: string }> = [
-  { href: "/about", label: "About Gurukulam" },
+  { href: "/kundli", label: "Kundli" },
+  { href: "/horoscope", label: "Horoscope" },
+  { href: "/chat", label: "AI Chat" },
   { href: "/courses", label: "Courses" },
   { href: "/ebooks", label: "eBooks" },
-  { href: "/contact", label: "Contact" },
+  { href: "/about", label: "About" },
 ];
 
 export function SiteHeader() {

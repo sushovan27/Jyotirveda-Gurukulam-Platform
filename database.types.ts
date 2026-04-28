@@ -9,7 +9,118 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          id: string
+          email: string
+          full_name: string | null
+          avatar_url: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          email: string
+          full_name?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          full_name?: string | null
+          avatar_url?: string | null
+          updated_at?: string
+        }
+      }
+      kundli_reports: {
+        Row: {
+          id: string
+          user_id: string
+          name: string
+          dob: string
+          tob: string
+          pob: string
+          chart_data: Json
+          ai_interpretation: Json
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          name: string
+          dob: string
+          tob: string
+          pob: string
+          chart_data?: Json
+          ai_interpretation?: Json
+          created_at?: string
+        }
+        Update: {
+          name?: string
+          dob?: string
+          tob?: string
+          pob?: string
+          chart_data?: Json
+          ai_interpretation?: Json
+        }
+      }
+      chat_history: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          messages: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title?: string
+          messages?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          title?: string
+          messages?: Json
+          updated_at?: string
+        }
+      }
+      blog_posts: {
+        Row: {
+          id: string
+          slug: string
+          title: string
+          content: string
+          excerpt: string | null
+          category: string
+          author_id: string | null
+          published_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          slug: string
+          title: string
+          content: string
+          excerpt?: string | null
+          category?: string
+          author_id?: string | null
+          published_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          slug?: string
+          title?: string
+          content?: string
+          excerpt?: string | null
+          category?: string
+          published_at?: string | null
+        }
+      }
     }
     Views: {
       [_ in never]: never

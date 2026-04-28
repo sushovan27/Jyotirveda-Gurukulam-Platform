@@ -1,33 +1,126 @@
 import { SiteShell } from "@/components/site/SiteShell";
 import { Container } from "@/components/site/Container";
 import { Card } from "@/components/site/Card";
+import { Button } from "@/components/site/Button";
+import { SectionHeading } from "@/components/site/SectionHeading";
 
-export default function PrivacyPage() {
+export default function DashboardPage() {
   return (
     <SiteShell>
-      <main className="py-14 sm:py-16">
-        <Container className="max-w-3xl">
-          <Card className="p-6 sm:p-8">
-            <h1
-              className="text-2xl font-semibold text-[#4A0A0A]"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              Privacy Policy
-            </h1>
-            <p className="mt-3 text-sm leading-relaxed text-[#4A0A0A]/75">
-              Placeholder policy text. We will finalize this once authentication, payments,
-              and data storage are implemented.
-            </p>
+      <main className="py-12 sm:py-16">
+        <Container>
+          <SectionHeading
+            eyebrow="My Dashboard"
+            title="Welcome back, Seeker"
+            description="Your personal Jyotirvedanta space—access your Kundli reports, chat history, and more."
+          />
 
-            <div className="mt-6 space-y-4 text-sm text-[#4A0A0A]/75">
-              <p>
-                We intend to collect only what is necessary for account access, purchase
-                verification, and customer support.
-              </p>
-              <p>
-                Payment details will be processed by the payment gateway; we will store only
-                essential references and status for access control.
-              </p>
+          {/* Quick actions */}
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                icon: "✦",
+                title: "AI Kundli Generator",
+                description: "Generate a detailed Vedic birth chart with AI interpretation.",
+                href: "/kundli",
+                cta: "Generate Kundli",
+              },
+              {
+                icon: "☽",
+                title: "Daily Horoscope",
+                description: "Fresh Vedic rashi predictions refreshed daily.",
+                href: "/horoscope",
+                cta: "View Horoscope",
+              },
+              {
+                icon: "ॐ",
+                title: "AI Astrologer Chat",
+                description: "Ask anything about Jyotish, your chart, or remedies.",
+                href: "/chat",
+                cta: "Start Chat",
+              },
+            ].map((item) => (
+              <Card key={item.title} className="p-6">
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#D4AF37]/18 text-lg text-[#4A0A0A]">
+                  {item.icon}
+                </div>
+                <h3
+                  className="mt-3 text-base font-semibold text-[#4A0A0A]"
+                  style={{ fontFamily: "var(--font-display)" }}
+                >
+                  {item.title}
+                </h3>
+                <p className="mt-1 text-sm text-[#4A0A0A]/70">
+                  {item.description}
+                </p>
+                <div className="mt-4">
+                  <Button href={item.href} className="w-full">
+                    {item.cta}
+                  </Button>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          {/* Recent activity placeholder */}
+          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+            <Card className="p-6">
+              <h2
+                className="text-base font-semibold text-[#4A0A0A]"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                Recent Kundli Reports
+              </h2>
+              <div className="mt-4 flex flex-col items-center gap-3 rounded-xl bg-[#FFF7E6]/60 py-8 text-center ring-1 ring-[#4A0A0A]/10">
+                <span className="text-2xl">✦</span>
+                <p className="text-sm text-[#4A0A0A]/60">
+                  No reports yet. Generate your first Kundli.
+                </p>
+                <Button variant="secondary" href="/kundli">
+                  Generate Kundli
+                </Button>
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <h2
+                className="text-base font-semibold text-[#4A0A0A]"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                Recent Chats
+              </h2>
+              <div className="mt-4 flex flex-col items-center gap-3 rounded-xl bg-[#FFF7E6]/60 py-8 text-center ring-1 ring-[#4A0A0A]/10">
+                <span className="text-2xl">ॐ</span>
+                <p className="text-sm text-[#4A0A0A]/60">
+                  No conversations yet. Ask our AI Astrologer.
+                </p>
+                <Button variant="secondary" href="/chat">
+                  Start a Chat
+                </Button>
+              </div>
+            </Card>
+          </div>
+
+          {/* Profile placeholder */}
+          <Card className="mt-6 p-6">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <h2
+                  className="text-base font-semibold text-[#4A0A0A]"
+                  style={{ fontFamily: "var(--font-display)" }}
+                >
+                  My Profile
+                </h2>
+                <p className="mt-1 text-sm text-[#4A0A0A]/60">
+                  Sign in to save your Kundli reports and chat history across devices.
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="secondary" href="/login">
+                  Sign In
+                </Button>
+                <Button href="/signup">Create Account</Button>
+              </div>
             </div>
           </Card>
         </Container>
@@ -35,3 +128,4 @@ export default function PrivacyPage() {
     </SiteShell>
   );
 }
+

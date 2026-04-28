@@ -24,6 +24,15 @@ export function SiteFooter() {
           <div>
             <div className="text-sm font-semibold text-[#4A0A0A]">Explore</div>
             <div className="mt-3 grid gap-2 text-sm">
+              <Link className="text-[#4A0A0A]/75 hover:text-[#4A0A0A]" href="/kundli">
+                AI Kundli Generator
+              </Link>
+              <Link className="text-[#4A0A0A]/75 hover:text-[#4A0A0A]" href="/horoscope">
+                Daily Horoscope
+              </Link>
+              <Link className="text-[#4A0A0A]/75 hover:text-[#4A0A0A]" href="/chat">
+                AI Astrologer Chat
+              </Link>
               <Link className="text-[#4A0A0A]/75 hover:text-[#4A0A0A]" href="/courses">
                 Courses
               </Link>

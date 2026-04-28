@@ -3,9 +3,10 @@ import * as React from "react";
 type CardProps = {
   className?: string;
   children: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-export function Card({ className, children }: CardProps) {
+export function Card({ className, children, onClick }: CardProps) {
   return (
     <div
       className={[
@@ -14,6 +15,7 @@ export function Card({ className, children }: CardProps) {
         "shadow-[0_18px_50px_-28px_rgba(74,10,10,0.35)]",
         className,
       ].join(" ")}
+      onClick={onClick}
     >
       {children}
     </div>

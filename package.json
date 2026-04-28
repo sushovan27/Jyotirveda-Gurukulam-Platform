@@ -11,13 +11,19 @@
     "check-all": "npm run lint & npm run type-check & wait"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
+    "ai": "^6.0.168",
     "framer-motion": "^12.23.26",
+    "groq-sdk": "^1.1.2",
     "next": "15.5.7",
     "posthog-js": "^1.270.1",
     "react": "^19",
-    "react-dom": "^19"
+    "react-dom": "^19",
+    "react-hook-form": "^7.74.0",
+    "zod": "^4.3.6",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@types/node": "^20",
