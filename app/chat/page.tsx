@@ -37,7 +37,7 @@ function TypingIndicator() {
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          className="h-2 w-2 rounded-full bg-[#D4AF37] animate-bounce"
+          className="h-2 w-2 rounded-full bg-brand-gold animate-bounce"
           style={{ animationDelay: `${i * 0.15}s` }}
         />
       ))}
@@ -60,8 +60,8 @@ function MessageBubble({ message }: { message: Message }) {
       <div
         className={`mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-semibold ${
           isUser
-            ? "bg-[#4A0A0A] text-[#FFF7E6]"
-            : "bg-[#D4AF37]/20 text-[#4A0A0A] ring-1 ring-[#D4AF37]/40"
+            ? "bg-brand-dark text-brand-cream"
+            : "bg-brand-gold/20 text-brand-dark ring-1 ring-brand-gold/40"
         }`}
       >
         {isUser ? "You" : "ॐ"}
@@ -71,8 +71,8 @@ function MessageBubble({ message }: { message: Message }) {
       <div
         className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
           isUser
-            ? "rounded-tr-sm bg-[#4A0A0A] text-[#FFF7E6]"
-            : "rounded-tl-sm bg-white/80 text-[#1b1b1b] ring-1 ring-[#4A0A0A]/10"
+            ? "rounded-tr-sm bg-brand-dark text-brand-cream"
+            : "rounded-tl-sm bg-white/80 text-brand-text ring-1 ring-brand-dark/10"
         }`}
       >
         {message.content || <TypingIndicator />}
@@ -200,38 +200,38 @@ export default function ChatPage() {
       <main className="flex flex-col" style={{ height: "calc(100vh - 65px)" }}>
         <Container className="flex flex-1 flex-col overflow-hidden py-6">
           <div className="mb-4 flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#4A0A0A] text-[#FFF7E6]">
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-brand-dark text-brand-cream">
               <span style={{ fontFamily: "var(--font-display)" }}>ॐ</span>
             </div>
             <div>
               <div
-                className="text-base font-semibold text-[#4A0A0A]"
+                className="text-base font-semibold text-brand-dark"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Jyotisha AI Astrologer
               </div>
-              <div className="text-xs text-[#4A0A0A]/60">
+              <div className="text-xs text-brand-dark/60">
                 Vedic wisdom · Always available
               </div>
             </div>
             <div className="ml-auto flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-green-400" />
-              <span className="text-xs text-[#4A0A0A]/60">Online</span>
+              <span className="text-xs text-brand-dark/60">Online</span>
             </div>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto rounded-2xl bg-[#FFF7E6]/50 p-4 ring-1 ring-[#4A0A0A]/10">
+          <div className="flex-1 overflow-y-auto rounded-2xl bg-brand-cream/50 p-4 ring-1 ring-brand-dark/10">
             <div className="flex flex-col gap-4">
               {messages.map((msg) => (
                 <MessageBubble key={msg.id} message={msg} />
               ))}
               {streaming && messages[messages.length - 1]?.content === "" && (
                 <div className="flex gap-3">
-                  <div className="mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#D4AF37]/20 text-sm font-semibold text-[#4A0A0A] ring-1 ring-[#D4AF37]/40">
+                  <div className="mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-gold/20 text-sm font-semibold text-brand-dark ring-1 ring-brand-gold/40">
                     ॐ
                   </div>
-                  <div className="rounded-2xl rounded-tl-sm bg-white/80 px-4 py-3 ring-1 ring-[#4A0A0A]/10">
+                  <div className="rounded-2xl rounded-tl-sm bg-white/80 px-4 py-3 ring-1 ring-brand-dark/10">
                     <TypingIndicator />
                   </div>
                 </div>
@@ -242,14 +242,14 @@ export default function ChatPage() {
             {/* Suggested questions (only when only welcome message) */}
             {messages.length === 1 && (
               <div className="mt-6 grid gap-2 sm:grid-cols-2">
-                <p className="col-span-full text-xs font-semibold text-[#4A0A0A]/50">
+                <p className="col-span-full text-xs font-semibold text-brand-dark/50">
                   Suggested questions:
                 </p>
                 {SUGGESTED.map((q) => (
                   <button
                     key={q}
                     onClick={() => void sendMessage(q)}
-                    className="rounded-xl bg-white/70 px-3 py-2.5 text-left text-sm text-[#4A0A0A]/80 ring-1 ring-[#4A0A0A]/10 hover:bg-white hover:text-[#4A0A0A] transition"
+                    className="rounded-xl bg-white/70 px-3 py-2.5 text-left text-sm text-brand-dark/80 ring-1 ring-brand-dark/10 hover:bg-white hover:text-brand-dark transition"
                   >
                     {q}
                   </button>
@@ -270,7 +270,7 @@ export default function ChatPage() {
             onSubmit={handleSubmit}
             className="mt-3 flex items-end gap-2"
           >
-            <div className="flex-1 rounded-2xl bg-white ring-1 ring-[#4A0A0A]/15 focus-within:ring-2 focus-within:ring-[#D4AF37]/50">
+            <div className="flex-1 rounded-2xl bg-white ring-1 ring-brand-dark/15 focus-within:ring-2 focus-within:ring-brand-gold/50">
               <textarea
                 ref={textareaRef}
                 value={input}
@@ -278,14 +278,14 @@ export default function ChatPage() {
                 onKeyDown={handleKeyDown}
                 placeholder="Ask about Jyotish, your chart, or planetary remedies…"
                 rows={1}
-                className="block w-full resize-none rounded-2xl bg-transparent px-4 py-3 text-sm text-[#1b1b1b] outline-none placeholder:text-[#4A0A0A]/40"
+                className="block w-full resize-none rounded-2xl bg-transparent px-4 py-3 text-sm text-brand-text outline-none placeholder:text-brand-dark/40"
                 style={{ minHeight: "48px", maxHeight: "160px" }}
               />
             </div>
             <button
               type="submit"
               disabled={!input.trim() || streaming}
-              className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#4A0A0A] text-[#FFF7E6] shadow ring-1 ring-[#D4AF37]/40 hover:bg-[#3A0707] disabled:opacity-40 transition"
+              className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand-dark text-brand-cream shadow ring-1 ring-brand-gold/40 hover:bg-brand-dark-hover disabled:opacity-40 transition"
               aria-label="Send message"
             >
               {streaming ? (
@@ -302,7 +302,7 @@ export default function ChatPage() {
             </button>
           </form>
 
-          <p className="mt-2 text-center text-xs text-[#4A0A0A]/40">
+          <p className="mt-2 text-center text-xs text-brand-dark/40">
             Press Enter to send · Shift+Enter for new line
           </p>
         </Container>

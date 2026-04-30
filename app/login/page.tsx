@@ -72,7 +72,7 @@ export default function LoginPage() {
   };
 
   const inputCls =
-    "w-full rounded-xl border border-[#4A0A0A]/20 bg-white/80 px-4 py-3 text-sm text-[#1b1b1b] outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 placeholder:text-[#4A0A0A]/40";
+    "w-full rounded-xl border border-brand-dark/20 bg-white/80 px-4 py-3 text-sm text-brand-text outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/30 placeholder:text-brand-dark/40";
 
   return (
     <SiteShell>
@@ -80,12 +80,12 @@ export default function LoginPage() {
         <Container className="max-w-md">
           <div className="mb-8 text-center">
             <div
-              className="text-3xl font-semibold text-[#4A0A0A]"
+              className="text-3xl font-semibold text-brand-dark"
               style={{ fontFamily: "var(--font-display)" }}
             >
               Welcome Back
             </div>
-            <p className="mt-2 text-sm text-[#4A0A0A]/70">
+            <p className="mt-2 text-sm text-brand-dark/70">
               Sign in to access your Kundli reports, chat history, and more.
             </p>
           </div>
@@ -93,7 +93,7 @@ export default function LoginPage() {
           <Card className="p-6 sm:p-8">
             <form onSubmit={handleLogin} className="grid gap-5">
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-semibold text-[#4A0A0A]">
+                <label className="text-sm font-semibold text-brand-dark">
                   Email
                 </label>
                 <input
