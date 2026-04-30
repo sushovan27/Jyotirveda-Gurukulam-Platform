@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Cinzel, Tiro_Devanagari_Sanskrit } from "next/font/google";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -11,6 +12,20 @@ const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
+});
+
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const tiroDevanagari = Tiro_Devanagari_Sanskrit({
+  subsets: ["devanagari", "latin"],
+  weight: "400",
+  variable: "--font-sanskrit",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -55,6 +70,8 @@ export default function RootLayout({
         className={[
           geistSans.variable,
           geistMono.variable,
+          cinzel.variable,
+          tiroDevanagari.variable,
           "antialiased",
         ].join(" ")}
       >

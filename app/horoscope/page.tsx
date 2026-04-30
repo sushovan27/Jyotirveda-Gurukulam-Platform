@@ -74,7 +74,7 @@ export default function HoroscopePage() {
         {/* Hero */}
         <section className="relative overflow-hidden py-12 sm:py-16">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-20 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-[#D4AF37]/12 blur-3xl" />
+            <div className="absolute -top-20 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-brand-gold/12 blur-3xl" />
           </div>
           <Container className="relative">
             <div className="flex flex-col items-center gap-4">
@@ -87,7 +87,7 @@ export default function HoroscopePage() {
               <button
                 onClick={() => void fetchHoroscopes()}
                 disabled={loading}
-                className="inline-flex items-center gap-2 rounded-full bg-[#FFF7E6] px-5 py-2.5 text-sm font-semibold text-[#4A0A0A] ring-1 ring-[#4A0A0A]/15 hover:bg-white disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-full bg-brand-cream px-5 py-2.5 text-sm font-semibold text-brand-dark ring-1 ring-brand-dark/15 hover:bg-white disabled:opacity-50"
               >
                 {loading ? (
                   <>
@@ -125,8 +125,8 @@ export default function HoroscopePage() {
                     className={[
                       "cursor-pointer p-5 transition-all duration-200",
                       isSelected
-                        ? "ring-2 ring-[#D4AF37] shadow-lg"
-                        : "hover:ring-1 hover:ring-[#D4AF37]/50",
+                        ? "ring-2 ring-brand-gold shadow-lg"
+                        : "hover:ring-1 hover:ring-brand-gold/50",
                     ].join(" ")}
                     onClick={() => setSelected(isSelected ? null : rashi.name)}
                   >
@@ -140,20 +140,20 @@ export default function HoroscopePage() {
                           {rashi.sanskrit}
                         </div>
                         <div
-                          className="mt-1 text-base font-semibold text-[#4A0A0A]"
+                          className="mt-1 text-base font-semibold text-brand-dark"
                           style={{ fontFamily: "var(--font-display)" }}
                         >
                           {rashi.name}
                         </div>
-                        <div className="text-xs text-[#4A0A0A]/60">
+                        <div className="text-xs text-brand-dark/60">
                           {rashi.english}
                         </div>
                       </div>
                       {/* Golden Zodiac Badge */}
-                      <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#FFF7E6] to-[#FCEABB] ring-1 ring-[#D4AF37]/40 shadow-inner">
-                        <div className="absolute inset-0 rounded-full bg-[#D4AF37]/10 opacity-0 transition-opacity group-hover:opacity-100" />
+                      <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-cream to-brand-light-gold ring-1 ring-brand-gold/40 shadow-inner">
+                        <div className="absolute inset-0 rounded-full bg-brand-gold/10 opacity-0 transition-opacity group-hover:opacity-100" />
                         <span 
-                          className="text-2xl text-[#4A0A0A] drop-shadow-sm" 
+                          className="text-2xl text-brand-dark drop-shadow-sm" 
                           style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
                         >
                           {rashi.symbol}&#xFE0E;
@@ -168,26 +168,26 @@ export default function HoroscopePage() {
                       >
                         {rashi.element}
                       </span>
-                      <span className="rounded-full bg-[#FFF7E6] px-2 py-0.5 text-xs text-[#4A0A0A]/70 ring-1 ring-[#4A0A0A]/10">
+                      <span className="rounded-full bg-brand-cream px-2 py-0.5 text-xs text-brand-dark/70 ring-1 ring-brand-dark/10">
                         {rashi.lord}
                       </span>
                     </div>
 
                     {/* Prediction (expanded) */}
                     {isSelected && (
-                      <div className="mt-4 border-t border-[#4A0A0A]/10 pt-4">
+                      <div className="mt-4 border-t border-brand-dark/10 pt-4">
                         {loading || !prediction ? (
                           <div className="flex gap-1">
                             {[1, 2, 3].map((i) => (
                               <div
                                 key={i}
-                                className="h-2 flex-1 animate-pulse rounded-full bg-[#D4AF37]/30"
+                                className="h-2 flex-1 animate-pulse rounded-full bg-brand-gold/30"
                                 style={{ animationDelay: `${i * 0.15}s` }}
                               />
                             ))}
                           </div>
                         ) : (
-                          <p className="text-sm leading-relaxed text-[#4A0A0A]/80">
+                          <p className="text-sm leading-relaxed text-brand-dark/80">
                             {prediction}
                           </p>
                         )}
@@ -195,7 +195,7 @@ export default function HoroscopePage() {
                     )}
 
                     {!isSelected && (
-                      <p className="mt-3 text-xs text-[#4A0A0A]/50">
+                      <p className="mt-3 text-xs text-brand-dark/50">
                         Tap to read today's guidance →
                       </p>
                     )}
@@ -204,7 +204,7 @@ export default function HoroscopePage() {
               })}
             </div>
 
-            <p className="mt-8 text-center text-xs text-[#4A0A0A]/50">
+            <p className="mt-8 text-center text-xs text-brand-dark/50">
               AI-generated Vedic horoscopes · For spiritual guidance only · Refresh daily
             </p>
           </Container>

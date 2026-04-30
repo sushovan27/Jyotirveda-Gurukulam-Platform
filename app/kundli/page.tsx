@@ -39,7 +39,7 @@ function FormField({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-semibold text-[#4A0A0A]">{label}</label>
+      <label className="text-sm font-semibold text-brand-dark">{label}</label>
       {children}
       {error && <p className="text-xs text-red-600">{error}</p>}
     </div>
@@ -47,7 +47,7 @@ function FormField({
 }
 
 const inputCls =
-  "w-full rounded-xl border border-[#4A0A0A]/20 bg-white/80 px-3 py-2.5 text-sm text-[#1b1b1b] outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 placeholder:text-[#4A0A0A]/40";
+  "w-full rounded-xl border border-brand-dark/20 bg-white/80 px-3 py-2.5 text-sm text-brand-text outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/30 placeholder:text-brand-dark/40";
 
 // ---------------------------------------------------------------------------
 // Result sections
@@ -63,7 +63,7 @@ function ResultSection({
   return (
     <div>
       <h3
-        className="mb-2 text-base font-semibold text-[#4A0A0A]"
+        className="mb-2 text-base font-semibold text-brand-dark"
         style={{ fontFamily: "var(--font-display)" }}
       >
         {title}
@@ -133,7 +133,7 @@ export default function KundliPage() {
         {/* Hero */}
         <section className="relative overflow-hidden py-12 sm:py-16">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-20 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-[#D4AF37]/15 blur-3xl" />
+            <div className="absolute -top-20 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-brand-gold/15 blur-3xl" />
           </div>
           <Container className="relative">
             <SectionHeading
@@ -234,7 +234,7 @@ export default function KundliPage() {
                   )}
                 </Button>
 
-                <p className="text-center text-xs text-[#4A0A0A]/60">
+                <p className="text-center text-xs text-brand-dark/60">
                   Powered by precision Swiss Ephemeris data
                 </p>
               </form>
@@ -250,7 +250,7 @@ export default function KundliPage() {
                 {/* Summary */}
                 <Card className="p-6">
                   <div className="flex items-start gap-4">
-                    <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#4A0A0A] text-[#FFF7E6]">
+                    <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-brand-dark text-brand-cream">
                       <span
                         className="text-lg"
                         style={{ fontFamily: "var(--font-display)" }}
@@ -260,12 +260,12 @@ export default function KundliPage() {
                     </div>
                     <div>
                       <h2
-                        className="text-xl font-semibold text-[#4A0A0A]"
+                        className="text-xl font-semibold text-brand-dark"
                         style={{ fontFamily: "var(--font-display)" }}
                       >
                         Your Vedic Kundli
                       </h2>
-                      <p className="mt-1 text-sm leading-relaxed text-[#4A0A0A]/75">
+                      <p className="mt-1 text-sm leading-relaxed text-brand-dark/75">
                         High-precision chart calculations.
                       </p>
                     </div>
@@ -280,11 +280,11 @@ export default function KundliPage() {
                     ].map((item) => (
                       <div
                         key={item.label}
-                        className="rounded-xl bg-[#FFF7E6] p-3 ring-1 ring-[#4A0A0A]/10"
+                        className="rounded-xl bg-brand-cream p-3 ring-1 ring-brand-dark/10"
                       >
-                        <div className="text-xs text-[#4A0A0A]/60">{item.label}</div>
+                        <div className="text-xs text-brand-dark/60">{item.label}</div>
                         <div
-                          className="mt-1 text-sm font-semibold text-[#4A0A0A]"
+                          className="mt-1 text-sm font-semibold text-brand-dark"
                           style={{ fontFamily: "var(--font-display)" }}
                         >
                           {item.value}
@@ -300,12 +300,12 @@ export default function KundliPage() {
                     <div className="mt-3 overflow-x-auto">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="border-b border-[#4A0A0A]/10">
+                          <tr className="border-b border-brand-dark/10">
                             {["Planet", "Rashi", "Longitude", "Nakshatra", "Pada", "N. Lord", "House"].map(
                               (h) => (
                                 <th
                                   key={h}
-                                  className="pb-2 pr-4 text-left text-xs font-semibold text-[#4A0A0A]/60"
+                                  className="pb-2 pr-4 text-left text-xs font-semibold text-brand-dark/60"
                                 >
                                   {h}
                                 </th>
@@ -317,17 +317,17 @@ export default function KundliPage() {
                           {interpretation.planets.map((p) => (
                             <tr
                               key={p.name}
-                              className="border-b border-[#4A0A0A]/5 last:border-0"
+                              className="border-b border-brand-dark/5 last:border-0"
                             >
-                              <td className="py-2 pr-4 font-medium text-[#4A0A0A]">
+                              <td className="py-2 pr-4 font-medium text-brand-dark">
                                 {p.name}
                               </td>
-                              <td className="py-2 pr-4 text-[#4A0A0A]/75">{p.rashi}</td>
-                              <td className="py-2 pr-4 text-[#4A0A0A]/75">{p.longitude.toFixed(2)}°</td>
-                              <td className="py-2 pr-4 text-[#4A0A0A]/75">{p.nakshatra}</td>
-                              <td className="py-2 pr-4 text-[#4A0A0A]/75">{p.pada}</td>
-                              <td className="py-2 pr-4 text-[#4A0A0A]/75">{p.nakshatraLord}</td>
-                              <td className="py-2 pr-4 text-[#4A0A0A]/75">{p.house}</td>
+                              <td className="py-2 pr-4 text-brand-dark/75">{p.rashi}</td>
+                              <td className="py-2 pr-4 text-brand-dark/75">{p.longitude.toFixed(2)}°</td>
+                              <td className="py-2 pr-4 text-brand-dark/75">{p.nakshatra}</td>
+                              <td className="py-2 pr-4 text-brand-dark/75">{p.pada}</td>
+                              <td className="py-2 pr-4 text-brand-dark/75">{p.nakshatraLord}</td>
+                              <td className="py-2 pr-4 text-brand-dark/75">{p.house}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -341,17 +341,17 @@ export default function KundliPage() {
                   <ResultSection title="Bhavas (Houses)">
                     <div className="mt-3 grid gap-3 grid-cols-2 md:grid-cols-4">
                       {interpretation.houses.map((house) => (
-                        <div key={house.house} className="rounded-xl bg-[#FFF7E6] p-3 ring-1 ring-[#4A0A0A]/10">
-                          <div className="text-xs font-semibold text-[#4A0A0A]/60 uppercase tracking-wider">
+                        <div key={house.house} className="rounded-xl bg-brand-cream p-3 ring-1 ring-brand-dark/10">
+                          <div className="text-xs font-semibold text-brand-dark/60 uppercase tracking-wider">
                             House {house.house}
                           </div>
-                          <div className="mt-1 font-semibold text-[#4A0A0A]">{house.sign}</div>
-                          <div className="text-xs text-[#4A0A0A]/75 mt-1">
+                          <div className="mt-1 font-semibold text-brand-dark">{house.sign}</div>
+                          <div className="text-xs text-brand-dark/75 mt-1">
                             {house.startLongitude.toFixed(1)}° - {house.endLongitude.toFixed(1)}°
                           </div>
-                          <div className="mt-2 text-xs text-[#4A0A0A]/60">
+                          <div className="mt-2 text-xs text-brand-dark/60">
                             {house.planets.length > 0 ? (
-                              <span className="font-medium text-[#D4AF37]">
+                              <span className="font-medium text-brand-gold">
                                 {house.planets.join(", ")}
                               </span>
                             ) : (
@@ -370,20 +370,20 @@ export default function KundliPage() {
                     <div className="mt-3 overflow-x-auto">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="border-b border-[#4A0A0A]/10">
-                            <th className="pb-2 pr-4 text-left text-xs font-semibold text-[#4A0A0A]/60">Mahadasha Lord</th>
-                            <th className="pb-2 pr-4 text-left text-xs font-semibold text-[#4A0A0A]/60">Start Date</th>
-                            <th className="pb-2 pr-4 text-left text-xs font-semibold text-[#4A0A0A]/60">End Date</th>
-                            <th className="pb-2 pr-4 text-left text-xs font-semibold text-[#4A0A0A]/60">Antardashas</th>
+                          <tr className="border-b border-brand-dark/10">
+                            <th className="pb-2 pr-4 text-left text-xs font-semibold text-brand-dark/60">Mahadasha Lord</th>
+                            <th className="pb-2 pr-4 text-left text-xs font-semibold text-brand-dark/60">Start Date</th>
+                            <th className="pb-2 pr-4 text-left text-xs font-semibold text-brand-dark/60">End Date</th>
+                            <th className="pb-2 pr-4 text-left text-xs font-semibold text-brand-dark/60">Antardashas</th>
                           </tr>
                         </thead>
                         <tbody>
                           {interpretation.dasha.timeline.map((period) => (
-                            <tr key={period.lord} className="border-b border-[#4A0A0A]/5 last:border-0 align-top">
-                              <td className="py-3 pr-4 font-medium text-[#4A0A0A]">{period.lord}</td>
-                              <td className="py-3 pr-4 text-[#4A0A0A]/75">{new Date(period.start).toLocaleDateString()}</td>
-                              <td className="py-3 pr-4 text-[#4A0A0A]/75">{new Date(period.end).toLocaleDateString()}</td>
-                              <td className="py-3 pr-4 text-[#4A0A0A]/75">
+                            <tr key={period.lord} className="border-b border-brand-dark/5 last:border-0 align-top">
+                              <td className="py-3 pr-4 font-medium text-brand-dark">{period.lord}</td>
+                              <td className="py-3 pr-4 text-brand-dark/75">{new Date(period.start).toLocaleDateString()}</td>
+                              <td className="py-3 pr-4 text-brand-dark/75">{new Date(period.end).toLocaleDateString()}</td>
+                              <td className="py-3 pr-4 text-brand-dark/75">
                                 <div className="max-h-24 overflow-y-auto text-xs grid gap-1 pr-2">
                                   {period.antardashas.map(ad => (
                                     <div key={ad.lord} className="flex justify-between">
