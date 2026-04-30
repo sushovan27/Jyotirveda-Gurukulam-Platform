@@ -1,0 +1,1 @@
+ALTER TABLE public.profiles ADD COLUMN tokens INTEGER DEFAULT 5;
