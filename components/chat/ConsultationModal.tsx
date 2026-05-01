@@ -38,9 +38,8 @@ const slideVariants = {
 const inputCls =
   "w-full rounded-xl border border-brand-dark/20 bg-white px-3 py-3 text-sm text-brand-dark outline-none transition-colors focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/30 placeholder:text-brand-dark/30";
 
-// ---------------------------------------------------------------------------
-// Component
-// ---------------------------------------------------------------------------
+// Height that keeps all 3 steps from causing layout jump
+const STEP_AREA_MIN_HEIGHT = 220;
 
 export function ConsultationModal({
   isOpen,
@@ -168,23 +167,21 @@ export function ConsultationModal({
               </button>
             </div>
 
-            {/* Step dots */}
+            {/* Step dots — active dot uses brand-gold, inactive uses brand-dark/15 */}
             <div className="flex justify-center gap-2 pt-4">
               {[1, 2, 3].map((s) => (
                 <motion.div
                   key={s}
-                  animate={{
-                    scale: s === step ? 1.2 : 1,
-                    backgroundColor:
-                      s <= step ? "#D4AF37" : "rgba(74,10,10,0.15)",
-                  }}
-                  className="h-2 w-2 rounded-full"
+                  animate={{ scale: s === step ? 1.2 : 1 }}
+                  className={`h-2 w-2 rounded-full transition-colors ${
+                    s <= step ? "bg-brand-gold" : "bg-brand-dark/15"
+                  }`}
                 />
               ))}
             </div>
 
             {/* Step content */}
-            <div className="relative overflow-hidden px-6 pb-6 pt-4" style={{ minHeight: 220 }}>
+            <div className="relative overflow-hidden px-6 pb-6 pt-4" style={{ minHeight: STEP_AREA_MIN_HEIGHT }}>
               <AnimatePresence custom={direction} mode="wait">
                 {step === 1 && (
                   <motion.div

@@ -7,6 +7,13 @@ import { ConsultationModal } from "@/components/chat/ConsultationModal";
 import type { ConsultationDetails } from "@/components/chat/ConsultationModal";
 
 // ---------------------------------------------------------------------------
+// Constants
+// ---------------------------------------------------------------------------
+
+/** WhatsApp number for astrologer consultations (E.164 without '+') */
+const ASTROLOGER_WHATSAPP = "919999999999";
+
+// ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
@@ -67,7 +74,7 @@ function MessageBubble({ message }: { message: Message }) {
   const whatsappUrl = React.useMemo(() => {
     if (!meta?.isConsultationStart) return null;
     const text = `Namaste! I'd like a consultation.\nName: ${meta.name ?? ""}\nDate of Birth: ${meta.dob ?? ""}\nTime of Birth: ${meta.tob ?? ""}`;
-    return `https://wa.me/919999999999?text=${encodeURIComponent(text)}`;
+    return `https://wa.me/${ASTROLOGER_WHATSAPP}?text=${encodeURIComponent(text)}`;
   }, [meta]);
 
   return (
