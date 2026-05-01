@@ -11,7 +11,7 @@ import type { ConsultationDetails } from "@/components/chat/ConsultationModal";
 // ---------------------------------------------------------------------------
 
 /** WhatsApp number for astrologer consultations (E.164 without '+') */
-const ASTROLOGER_WHATSAPP = "919999999999";
+const ASTROLOGER_WHATSAPP = "918697332855";
 
 // ---------------------------------------------------------------------------
 // Types
