@@ -58,8 +58,11 @@ export default function Home() {
               </p>
 
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button href="/services" className="px-8 py-4 text-base shadow-xl shadow-brand-dark/10">
-                  Book Consultation
+                <Button href="/kundli" className="px-8 py-4 text-base shadow-xl shadow-brand-dark/10">
+                  Make a Free Kundali
+                </Button>
+                <Button variant="secondary" href="/services" className="px-8 py-4 text-base bg-brand-dark text-brand-cream hover:bg-[#3A0808]">
+                  Book Now
                 </Button>
                 <Button variant="secondary" href="/courses" className="px-8 py-4 text-base">
                   Explore Courses
@@ -202,6 +205,14 @@ export default function Home() {
                       <div className="mt-4 text-sm font-bold text-brand-dark">{t.name}</div>
                     </motion.div>
                   ))}
+                </div>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <Button href="/services" className="px-6 py-3 text-sm shadow-lg shadow-brand-dark/10">
+                    Book Now
+                  </Button>
+                  <Button variant="secondary" href="/kundli" className="px-6 py-3 text-sm">
+                    Make a Free Kundali
+                  </Button>
                 </div>
               </div>
             </div>
