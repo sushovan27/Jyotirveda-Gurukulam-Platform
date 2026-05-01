@@ -63,7 +63,7 @@ Please confirm my booking.`;
     onClose();
   };
 
-  const inputCls = "w-full rounded-xl border border-[#4A0A0A]/20 bg-white px-3 py-2.5 text-sm text-[#4A0A0A] outline-none transition-colors focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 placeholder:text-[#4A0A0A]/30";
+  const inputCls = "w-full rounded-xl border border-brand-dark/20 bg-white px-3 py-2.5 text-sm text-brand-dark outline-none transition-colors focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/30 placeholder:text-brand-dark/30";
 
   return (
     <AnimatePresence>
@@ -74,7 +74,7 @@ Please confirm my booking.`;
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#4A0A0A]/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-brand-dark/40 backdrop-blur-sm"
           />
           
           <motion.div
@@ -82,19 +82,19 @@ Please confirm my booking.`;
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="relative w-full max-w-3xl overflow-hidden rounded-3xl bg-[#FFF7E6] shadow-2xl ring-1 ring-[#4A0A0A]/10 max-h-[90vh] flex flex-col"
+            className="relative w-full max-w-3xl overflow-hidden rounded-3xl bg-brand-cream shadow-2xl ring-1 ring-brand-dark/10 max-h-[90vh] flex flex-col"
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-[#4A0A0A]/10 bg-white/50 px-6 py-5 backdrop-blur-md">
+            <div className="flex items-center justify-between border-b border-brand-dark/10 bg-white/50 px-6 py-5 backdrop-blur-md">
               <div>
-                <h2 className="text-2xl font-bold text-[#4A0A0A]" style={{ fontFamily: "var(--font-display)" }}>
+                <h2 className="text-2xl font-bold text-brand-dark font-display">
                   Consultation Booking
                 </h2>
-                <p className="mt-1 text-sm text-[#4A0A0A]/60">Complete your details to request a session.</p>
+                <p className="mt-1 text-sm text-brand-dark/60">Complete your details to request a session.</p>
               </div>
               <button 
                 onClick={onClose} 
-                className="rounded-full bg-[#4A0A0A]/5 p-2 text-[#4A0A0A]/60 transition-colors hover:bg-[#4A0A0A]/10 hover:text-[#4A0A0A]"
+                className="rounded-full bg-brand-dark/5 p-2 text-brand-dark/60 transition-colors hover:bg-brand-dark/10 hover:text-brand-dark"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
               </button>
@@ -106,7 +106,7 @@ Please confirm my booking.`;
                 {/* Form Elements */}
                 <div className="space-y-5">
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-[#4A0A0A]">Full Name</label>
+                    <label className="mb-1.5 block text-sm font-semibold text-brand-dark">Full Name</label>
                     <input
                       type="text"
                       value={formData.name}
@@ -116,7 +116,7 @@ Please confirm my booking.`;
                     />
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-[#4A0A0A]">Date of Birth</label>
+                    <label className="mb-1.5 block text-sm font-semibold text-brand-dark">Date of Birth</label>
                     <input
                       type="date"
                       value={formData.dob}
@@ -125,23 +125,23 @@ Please confirm my booking.`;
                     />
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-[#4A0A0A]">Time of Birth</label>
+                    <label className="mb-1.5 block text-sm font-semibold text-brand-dark">Time of Birth</label>
                     <div className="flex gap-2">
                       <select value={formData.tobHour} onChange={(e) => setFormData({...formData, tobHour: e.target.value})} className={inputCls}>
                         {Array.from({length: 24}).map((_, i) => <option key={i} value={i.toString().padStart(2, '0')}>{i.toString().padStart(2, '0')}</option>)}
                       </select>
-                      <span className="self-center text-[#4A0A0A]/50">:</span>
+                      <span className="self-center text-brand-dark/50">:</span>
                       <select value={formData.tobMin} onChange={(e) => setFormData({...formData, tobMin: e.target.value})} className={inputCls}>
                         {Array.from({length: 60}).map((_, i) => <option key={i} value={i.toString().padStart(2, '0')}>{i.toString().padStart(2, '0')}</option>)}
                       </select>
-                      <span className="self-center text-[#4A0A0A]/50">:</span>
+                      <span className="self-center text-brand-dark/50">:</span>
                       <select value={formData.tobSec} onChange={(e) => setFormData({...formData, tobSec: e.target.value})} className={inputCls}>
                         {Array.from({length: 60}).map((_, i) => <option key={i} value={i.toString().padStart(2, '0')}>{i.toString().padStart(2, '0')}</option>)}
                       </select>
                     </div>
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-[#4A0A0A]">Place of Birth</label>
+                    <label className="mb-1.5 block text-sm font-semibold text-brand-dark">Place of Birth</label>
                     <input
                       type="text"
                       value={formData.pob}
@@ -155,7 +155,7 @@ Please confirm my booking.`;
                 {/* Service Selection & Pricing */}
                 <div className="space-y-5">
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-[#4A0A0A]">Select Service</label>
+                    <label className="mb-1.5 block text-sm font-semibold text-brand-dark">Select Service</label>
                     <select
                       value={formData.serviceId}
                       onChange={(e) => setFormData({...formData, serviceId: e.target.value})}
@@ -167,7 +167,7 @@ Please confirm my booking.`;
                     </select>
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-[#4A0A0A]">Additional Notes</label>
+                    <label className="mb-1.5 block text-sm font-semibold text-brand-dark">Additional Notes</label>
                     <textarea
                       value={formData.notes}
                       onChange={(e) => setFormData({...formData, notes: e.target.value})}
@@ -177,20 +177,20 @@ Please confirm my booking.`;
                   </div>
 
                   {/* Price Breakdown */}
-                  <div className="rounded-2xl bg-white p-5 ring-1 ring-[#4A0A0A]/10">
-                    <div className="mb-2 flex justify-between text-sm text-[#4A0A0A]/70">
+                  <div className="rounded-2xl bg-white p-5 ring-1 ring-brand-dark/10">
+                    <div className="mb-2 flex justify-between text-sm text-brand-dark/70">
                       <span>Base Price</span>
-                      <span className="font-medium text-[#4A0A0A]">₹{basePrice.toLocaleString('en-IN')}</span>
+                      <span className="font-medium text-brand-dark">₹{basePrice.toLocaleString('en-IN')}</span>
                     </div>
-                    <div className="mb-2 flex justify-between text-sm text-[#4A0A0A]/70">
+                    <div className="mb-2 flex justify-between text-sm text-brand-dark/70">
                       <span>Platform Fee</span>
-                      <span className="font-medium text-[#4A0A0A]">₹{platformFee}</span>
+                      <span className="font-medium text-brand-dark">₹{platformFee}</span>
                     </div>
-                    <div className="mb-3 flex justify-between border-b border-[#4A0A0A]/10 pb-3 text-sm text-[#4A0A0A]/70">
+                    <div className="mb-3 flex justify-between border-b border-brand-dark/10 pb-3 text-sm text-brand-dark/70">
                       <span>GST (18%)</span>
-                      <span className="font-medium text-[#4A0A0A]">₹{gst}</span>
+                      <span className="font-medium text-brand-dark">₹{gst}</span>
                     </div>
-                    <div className="flex justify-between text-lg font-bold text-[#D4AF37]">
+                    <div className="flex justify-between text-lg font-bold text-brand-gold">
                       <span>Total Amount</span>
                       <span>₹{total.toLocaleString('en-IN')}</span>
                     </div>
@@ -204,17 +204,17 @@ Please confirm my booking.`;
             </div>
 
             {/* Footer */}
-            <div className="border-t border-[#4A0A0A]/10 bg-white/50 px-6 py-5 backdrop-blur-md sm:flex sm:flex-row-reverse sm:gap-3">
+            <div className="border-t border-brand-dark/10 bg-white/50 px-6 py-5 backdrop-blur-md sm:flex sm:flex-row-reverse sm:gap-3">
               <button 
                 onClick={handleBook} 
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#4A0A0A] px-6 py-3 text-sm font-semibold text-[#FFF7E6] shadow-md transition-all hover:bg-[#3A0808] hover:shadow-lg sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-dark px-6 py-3 text-sm font-semibold text-brand-cream shadow-md transition-all hover:bg-[#3A0808] hover:shadow-lg sm:w-auto"
               >
                 Proceed to WhatsApp
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
               </button>
               <button 
                 onClick={onClose} 
-                className="mt-3 inline-flex w-full justify-center rounded-full bg-transparent px-6 py-3 text-sm font-semibold text-[#4A0A0A] ring-1 ring-[#4A0A0A]/20 transition-all hover:bg-[#4A0A0A]/5 sm:mt-0 sm:w-auto"
+                className="mt-3 inline-flex w-full justify-center rounded-full bg-transparent px-6 py-3 text-sm font-semibold text-brand-dark ring-1 ring-brand-dark/20 transition-all hover:bg-brand-dark/5 sm:mt-0 sm:w-auto"
               >
                 Cancel
               </button>

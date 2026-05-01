@@ -16,7 +16,7 @@ export function SignOutButton() {
   return (
     <button
       onClick={handleSignOut}
-      className="inline-flex items-center justify-center rounded-full bg-[#FFF7E6] px-5 py-2.5 text-sm font-semibold tracking-wide text-[#4A0A0A] ring-1 ring-[#4A0A0A]/15 transition hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/70"
+      className="inline-flex items-center justify-center rounded-full bg-brand-cream px-5 py-2.5 text-sm font-semibold tracking-wide text-brand-dark ring-1 ring-brand-dark/15 transition hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/70"
     >
       Sign Out
     </button>

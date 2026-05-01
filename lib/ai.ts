@@ -1,5 +1,4 @@
 import Groq from "groq-sdk";
-import { calculateVedicChart } from "@/lib/vedic-astro";
 
 // ---------------------------------------------------------------------------
 // Provider initialisation (lazy – keys may not be present during build)
@@ -97,26 +96,6 @@ Your responses must:
 - Be thorough yet accessible; avoid jargon overload
 - Respect the seeker's privacy and spiritual journey`;
 
-const KUNDLI_INTERPRETATION_PROMPT = `${ASTROLOGER_SYSTEM_PROMPT}
-
-You will receive ACCURATE, astronomically-calculated planetary positions for a Vedic birth chart. These positions are computed using real ephemeris data with Lahiri Ayanamsa — DO NOT change or recalculate them.
-
-Your job is to INTERPRET these positions using traditional Jyotish principles. Respond with valid JSON only (no markdown, no code fences).
-The JSON must match exactly this schema:
-{
-  "summary": "string – 2-3 sentence overview based on the chart",
-  "planetEffects": {
-    "<planet name>": "string – 1-2 sentence interpretation of this planet's placement"
-  },
-  "career": "string – career/dharma analysis based on 10th house lord, Sun, and relevant yogas",
-  "marriage": "string – relationship analysis based on 7th house, Venus, and relevant factors",
-  "health": "string – health analysis based on ascendant lord, 6th house, and relevant grahas",
-  "remedies": ["string – specific Vedic remedy 1", "string – remedy 2", ...],
-  "favourableColours": ["colour1", "colour2"],
-  "luckyNumbers": [number, number, number],
-  "mahadashaInterpretation": "string – interpretation of the current Mahadasha period and its effects"
-}`;
-
 const HOROSCOPE_SYSTEM_PROMPT = `${ASTROLOGER_SYSTEM_PROMPT}
 
 Generate fresh, insightful daily horoscope predictions for Vedic rashis. Keep each prediction to 3-4 sentences covering today's energy, a practical tip, and an encouraging note. Use Vedic rashi names (Mesha, Vrishabha, Mithuna, Karka, Simha, Kanya, Tula, Vrishchika, Dhanu, Makara, Kumbha, Meena).`;
@@ -163,103 +142,6 @@ async function callWithFallback(
 // ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
-
-/**
- * Generate a detailed Vedic Kundli interpretation for the given birth data.
- */
-export async function generateKundli(
-  input: KundliInput
-): Promise<KundliInterpretation> {
-  // Step 1: Calculate REAL planetary positions using ephemeris
-  const chart = calculateVedicChart(input.dob, input.tob, input.pob);
-
-  // Step 2: Build a description of the chart for AI interpretation
-  const chartDescription = [
-    `Vedic Birth Chart for ${input.name}`,
-    `DOB: ${input.dob}, TOB: ${input.tob}, POB: ${input.pob}`,
-    `Coordinates: ${chart.latitude.toFixed(4)}°N, ${chart.longitude.toFixed(4)}°E`,
-    `Lahiri Ayanamsa applied: ${chart.ayanamsa.toFixed(4)}°`,
-    ``,
-    `ASCENDANT (Lagna): ${chart.ascendant} at ${formatSidDeg(chart.ascendantLongitude)}`,
-    `SUN SIGN: ${chart.sunSign}`,
-    `MOON SIGN: ${chart.moonSign}`,
-    ``,
-    `PLANETARY POSITIONS (Sidereal/Lahiri):`,
-    ...chart.planets.map(p =>
-      `  ${p.name} (${p.nameEn}): ${p.sign} | House ${p.house} | ${p.degree} | Nakshatra: ${p.nakshatra} (Pada ${p.nakshatraPada})`
-    ),
-    ``,
-    `CURRENT MAHADASHA: ${chart.mahadasha.current}`,
-    `  Period: ${chart.mahadasha.startDate} to ${chart.mahadasha.endDate}`,
-    `  Elapsed: ${chart.mahadasha.elapsed} | Remaining: ${chart.mahadasha.remaining}`,
-  ].join("\n");
-
-  // Step 3: Ask AI to INTERPRET (not calculate) these positions
-  const messages: ChatMessage[] = [
-    { role: "system", content: KUNDLI_INTERPRETATION_PROMPT },
-    {
-      role: "user",
-      content: `Here are the astronomically-calculated planetary positions for this person's Vedic birth chart. Interpret them using traditional Jyotish principles. Return ONLY valid JSON as specified.\n\n${chartDescription}`,
-    },
-  ];
-
-  const raw = await callWithFallback(messages, {
-    temperature: 0.4,
-    maxTokens: 3000,
-  });
-
-  const cleaned = raw
-    .replace(/^```(?:json)?\s*/i, "")
-    .replace(/\s*```$/i, "")
-    .trim();
-
-  // Parse AI interpretation and merge with real calculated data
-  const aiResult = JSON.parse(cleaned) as {
-    summary: string;
-    planetEffects: Record<string, string>;
-    career: string;
-    marriage: string;
-    health: string;
-    remedies: string[];
-    favourableColours: string[];
-    luckyNumbers: number[];
-    mahadashaInterpretation: string;
-  };
-
-  // Build final result with REAL positions + AI interpretation
-  return {
-    summary: aiResult.summary,
-    ascendant: chart.ascendant,
-    sunSign: chart.sunSign,
-    moonSign: chart.moonSign,
-    planets: chart.planets.map(p => ({
-      name: `${p.name} (${p.nameEn})`,
-      sign: p.sign,
-      house: p.house,
-      degree: p.degree,
-      nakshatra: `${p.nakshatra} (Pada ${p.nakshatraPada})`,
-      effects: aiResult.planetEffects?.[p.name] ??
-               aiResult.planetEffects?.[p.nameEn] ??
-               `${p.name} in ${p.sign} in House ${p.house}`,
-    })),
-    career: aiResult.career,
-    marriage: aiResult.marriage,
-    health: aiResult.health,
-    remedies: aiResult.remedies ?? [],
-    favourableColours: aiResult.favourableColours ?? [],
-    luckyNumbers: aiResult.luckyNumbers ?? [],
-    mahadasha: `${chart.mahadasha.current} (${chart.mahadasha.startDate} – ${chart.mahadasha.endDate}). ${chart.mahadasha.remaining} remaining. ${aiResult.mahadashaInterpretation ?? ""}`,
-  };
-}
-
-/** Helper to format sidereal degrees for display */
-function formatSidDeg(long: number): string {
-  const signIdx = Math.floor(long / 30) % 12;
-  const signs = ["Mesha","Vrishabha","Mithuna","Karka","Simha","Kanya","Tula","Vrishchika","Dhanu","Makara","Kumbha","Meena"];
-  const deg = Math.floor(long % 30);
-  const min = Math.floor(((long % 30) - deg) * 60);
-  return `${signs[signIdx]} ${deg}°${min.toString().padStart(2,"0")}'`;
-}
 
 /**
  * Generate a daily horoscope prediction for a given Vedic rashi.

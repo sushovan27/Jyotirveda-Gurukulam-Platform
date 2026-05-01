@@ -55,23 +55,22 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#4A0A0A]/10 bg-[#FFF7E6]/70 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-brand-dark/10 bg-brand-cream/70 backdrop-blur">
       <Container className="py-3">
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="group flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#4A0A0A] text-[#FFF7E6] ring-1 ring-[#D4AF37]/40">
-              <span className="font-semibold" style={{ fontFamily: "var(--font-display)" }}>
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-brand-dark text-brand-cream ring-1 ring-brand-gold/40">
+              <span className="font-semibold font-display">
                 ॐ
               </span>
             </div>
             <div className="leading-tight">
               <div
-                className="text-sm font-semibold tracking-wide text-[#4A0A0A]"
-                style={{ fontFamily: "var(--font-display)" }}
+                className="text-sm font-semibold tracking-wide text-brand-dark font-display"
               >
                 Jyotirvedanta Gurukulam
               </div>
-              <div className="text-xs text-[#4A0A0A]/70">
+              <div className="text-xs text-brand-dark/70">
                 Vedic astrology courses • Sacred study
               </div>
             </div>
@@ -82,7 +81,7 @@ export function SiteHeader() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-sm font-medium text-[#4A0A0A]/80 hover:text-[#4A0A0A]"
+                className="text-sm font-medium text-brand-dark/80 hover:text-brand-dark"
               >
                 {l.label}
               </Link>
@@ -92,7 +91,7 @@ export function SiteHeader() {
           {/* Auth buttons — desktop */}
           <div className="hidden items-center gap-2 md:flex">
             {checking ? (
-              <div className="h-9 w-20 animate-pulse rounded-full bg-[#4A0A0A]/10" />
+              <div className="h-9 w-20 animate-pulse rounded-full bg-brand-dark/10" />
             ) : user ? (
               <>
                 <Button variant="ghost" href="/dashboard">
@@ -100,7 +99,7 @@ export function SiteHeader() {
                 </Button>
                 <button
                   onClick={handleSignOut}
-                  className="inline-flex items-center justify-center rounded-full bg-[#FFF7E6] px-5 py-2.5 text-sm font-semibold tracking-wide text-[#4A0A0A] ring-1 ring-[#4A0A0A]/15 transition hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/70"
+                  className="inline-flex items-center justify-center rounded-full bg-brand-cream px-5 py-2.5 text-sm font-semibold tracking-wide text-brand-dark ring-1 ring-brand-dark/15 transition hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/70"
                 >
                   Sign Out
                 </button>
@@ -119,7 +118,7 @@ export function SiteHeader() {
 
           <button
             type="button"
-            className="md:hidden rounded-xl p-2 ring-1 ring-[#4A0A0A]/15 text-[#4A0A0A]"
+            className="md:hidden rounded-xl p-2 ring-1 ring-brand-dark/15 text-brand-dark"
             aria-label="Open menu"
             onClick={() => setOpen((v) => !v)}
           >
@@ -142,14 +141,14 @@ export function SiteHeader() {
               exit={{ height: 0, opacity: 0 }}
               className="md:hidden overflow-hidden"
             >
-              <div className="mt-3 rounded-2xl bg-white/70 ring-1 ring-[#4A0A0A]/10 p-3">
+              <div className="mt-3 rounded-2xl bg-white/70 ring-1 ring-brand-dark/10 p-3">
                 <div className="flex flex-col gap-2">
                   {navLinks.map((l) => (
                     <Link
                       key={l.href}
                       href={l.href}
                       onClick={() => setOpen(false)}
-                      className="rounded-xl px-3 py-2 text-sm font-medium text-[#4A0A0A]/85 hover:bg-[#4A0A0A]/5"
+                      className="rounded-xl px-3 py-2 text-sm font-medium text-brand-dark/85 hover:bg-brand-dark/5"
                     >
                       {l.label}
                     </Link>
@@ -165,7 +164,7 @@ export function SiteHeader() {
                             setOpen(false);
                             void handleSignOut();
                           }}
-                          className="w-full inline-flex items-center justify-center rounded-full bg-[#4A0A0A] px-5 py-2.5 text-sm font-semibold tracking-wide text-[#FFF7E6] ring-1 ring-[#D4AF37]/40 transition hover:bg-[#3A0707]"
+                          className="w-full inline-flex items-center justify-center rounded-full bg-brand-dark px-5 py-2.5 text-sm font-semibold tracking-wide text-brand-cream ring-1 ring-brand-gold/40 transition hover:bg-[#3A0707]"
                         >
                           Sign Out
                         </button>

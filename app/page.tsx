@@ -27,9 +27,9 @@ export default function Home() {
         {/* Hero */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0">
-            <div className="absolute -top-24 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-[#D4AF37]/15 blur-3xl" />
-            <div className="absolute -bottom-24 -left-24 h-[420px] w-[420px] rounded-full bg-[#4A0A0A]/10 blur-3xl" />
-            <div className="absolute -bottom-28 -right-28 h-[520px] w-[520px] rounded-full bg-[#E49B0F]/10 blur-3xl" />
+            <div className="absolute -top-24 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-brand-gold/15 blur-3xl" />
+            <div className="absolute -bottom-24 -left-24 h-[420px] w-[420px] rounded-full bg-brand-dark/10 blur-3xl" />
+            <div className="absolute -bottom-28 -right-28 h-[520px] w-[520px] rounded-full bg-brand-accent/10 blur-3xl" />
           </div>
 
           <Container className="relative py-16 sm:py-24">
@@ -39,26 +39,26 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="mx-auto max-w-4xl text-center"
             >
-              <div className="inline-flex items-center gap-3 rounded-full bg-white/70 px-4 py-2 ring-1 ring-[#4A0A0A]/10 shadow-sm mb-8">
-                <span className="text-sm text-[#D4AF37]" style={{ fontFamily: "var(--font-sanskrit)" }}>
+              <div className="inline-flex items-center gap-3 rounded-full bg-white/70 px-4 py-2 ring-1 ring-brand-dark/10 shadow-sm mb-8">
+                <span className="text-sm text-brand-gold font-sanskrit">
                   सत्यम् • शिवम् • सुन्दरम्
                 </span>
-                <span className="h-4 w-[1px] bg-[#4A0A0A]/20" />
-                <span className="text-xs font-semibold tracking-widest uppercase text-[#4A0A0A]/80">
+                <span className="h-4 w-[1px] bg-brand-dark/20" />
+                <span className="text-xs font-semibold tracking-widest uppercase text-brand-dark/80">
                   Premium Digital Gurukulam
                 </span>
               </div>
 
-              <h1 className="text-balance text-5xl font-semibold leading-tight tracking-tight text-[#4A0A0A] sm:text-6xl md:text-7xl" style={{ fontFamily: "var(--font-display)" }}>
-                Align Your Destiny with <br/><span className="text-[#D4AF37]">Cosmic Wisdom</span>
+              <h1 className="text-balance text-5xl font-semibold leading-tight tracking-tight text-brand-dark sm:text-6xl md:text-7xl font-display">
+                Align Your Destiny with <br/><span className="text-brand-gold">Cosmic Wisdom</span>
               </h1>
 
-              <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-[#4A0A0A]/75 sm:text-xl">
+              <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-brand-dark/75 sm:text-xl">
                 Authentic Vedic Astrology, Numerology, and Vastu Shastra guided by Dr. Subrata Acharya. Discover your path through expert consultation or structured learning.
               </p>
 
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button href="/services" className="px-8 py-4 text-base shadow-xl shadow-[#4A0A0A]/10">
+                <Button href="/services" className="px-8 py-4 text-base shadow-xl shadow-brand-dark/10">
                   Book Consultation
                 </Button>
                 <Button variant="secondary" href="/courses" className="px-8 py-4 text-base">
@@ -70,7 +70,7 @@ export default function Home() {
         </section>
 
         {/* Pathways Section */}
-        <section className="py-16 sm:py-24 bg-[#FFF7E6]/50">
+        <section className="py-16 sm:py-24 bg-brand-cream/50">
           <Container>
             <SectionHeading
               eyebrow="Your Journey"
@@ -89,16 +89,16 @@ export default function Home() {
               {/* Services Card */}
               <motion.div variants={fadeUp}>
                 <Link href="/services" className="group block h-full">
-                  <div className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-white p-8 ring-1 ring-[#4A0A0A]/10 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#D4AF37]/15">
-                    <div className="absolute right-0 top-0 h-32 w-32 -translate-y-8 translate-x-8 rounded-full bg-gradient-to-br from-[#D4AF37]/20 to-transparent blur-2xl" />
-                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFF7E6] text-[#D4AF37] ring-1 ring-[#D4AF37]/20 transition-transform group-hover:scale-110">
+                  <div className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-white p-8 ring-1 ring-brand-dark/10 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-gold/15">
+                    <div className="absolute right-0 top-0 h-32 w-32 -translate-y-8 translate-x-8 rounded-full bg-gradient-to-br from-brand-gold/20 to-transparent blur-2xl" />
+                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-cream text-brand-gold ring-1 ring-brand-gold/20 transition-transform group-hover:scale-110">
                       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                     </div>
-                    <h3 className="text-2xl font-semibold text-[#4A0A0A] mb-3" style={{ fontFamily: "var(--font-display)" }}>Consultations</h3>
-                    <p className="text-[#4A0A0A]/70 leading-relaxed flex-1">
+                    <h3 className="text-2xl font-semibold text-brand-dark mb-3 font-display">Consultations</h3>
+                    <p className="text-brand-dark/70 leading-relaxed flex-1">
                       One-on-one sessions with Guruji for Astrology, Vastu, Numerology, and Marriage Matching.
                     </p>
-                    <div className="mt-8 flex items-center font-semibold text-[#D4AF37] group-hover:text-[#E49B0F]">
+                    <div className="mt-8 flex items-center font-semibold text-brand-gold group-hover:text-brand-accent">
                       Book Now <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
                     </div>
                   </div>
@@ -108,16 +108,16 @@ export default function Home() {
               {/* Courses Card */}
               <motion.div variants={fadeUp}>
                 <Link href="/courses" className="group block h-full">
-                  <div className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-white p-8 ring-1 ring-[#4A0A0A]/10 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#D4AF37]/15">
-                    <div className="absolute right-0 top-0 h-32 w-32 -translate-y-8 translate-x-8 rounded-full bg-gradient-to-br from-[#D4AF37]/20 to-transparent blur-2xl" />
-                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFF7E6] text-[#D4AF37] ring-1 ring-[#D4AF37]/20 transition-transform group-hover:scale-110">
+                  <div className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-white p-8 ring-1 ring-brand-dark/10 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-gold/15">
+                    <div className="absolute right-0 top-0 h-32 w-32 -translate-y-8 translate-x-8 rounded-full bg-gradient-to-br from-brand-gold/20 to-transparent blur-2xl" />
+                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-cream text-brand-gold ring-1 ring-brand-gold/20 transition-transform group-hover:scale-110">
                       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     </div>
-                    <h3 className="text-2xl font-semibold text-[#4A0A0A] mb-3" style={{ fontFamily: "var(--font-display)" }}>Masterclasses</h3>
-                    <p className="text-[#4A0A0A]/70 leading-relaxed flex-1">
+                    <h3 className="text-2xl font-semibold text-brand-dark mb-3 font-display">Masterclasses</h3>
+                    <p className="text-brand-dark/70 leading-relaxed flex-1">
                       Structured learning programs designed for serious seekers to master Vedic sciences.
                     </p>
-                    <div className="mt-8 flex items-center font-semibold text-[#D4AF37] group-hover:text-[#E49B0F]">
+                    <div className="mt-8 flex items-center font-semibold text-brand-gold group-hover:text-brand-accent">
                       View Curriculum <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
                     </div>
                   </div>
@@ -127,16 +127,16 @@ export default function Home() {
               {/* eBooks Card */}
               <motion.div variants={fadeUp}>
                 <Link href="/ebooks" className="group block h-full">
-                  <div className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-white p-8 ring-1 ring-[#4A0A0A]/10 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#D4AF37]/15">
-                    <div className="absolute right-0 top-0 h-32 w-32 -translate-y-8 translate-x-8 rounded-full bg-gradient-to-br from-[#D4AF37]/20 to-transparent blur-2xl" />
-                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFF7E6] text-[#D4AF37] ring-1 ring-[#D4AF37]/20 transition-transform group-hover:scale-110">
+                  <div className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-white p-8 ring-1 ring-brand-dark/10 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-gold/15">
+                    <div className="absolute right-0 top-0 h-32 w-32 -translate-y-8 translate-x-8 rounded-full bg-gradient-to-br from-brand-gold/20 to-transparent blur-2xl" />
+                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-cream text-brand-gold ring-1 ring-brand-gold/20 transition-transform group-hover:scale-110">
                       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
-                    <h3 className="text-2xl font-semibold text-[#4A0A0A] mb-3" style={{ fontFamily: "var(--font-display)" }}>eBooks</h3>
-                    <p className="text-[#4A0A0A]/70 leading-relaxed flex-1">
+                    <h3 className="text-2xl font-semibold text-brand-dark mb-3 font-display">eBooks</h3>
+                    <p className="text-brand-dark/70 leading-relaxed flex-1">
                       Premium study-ready PDFs with clean structure, perfect for quick reference and deep study.
                     </p>
-                    <div className="mt-8 flex items-center font-semibold text-[#D4AF37] group-hover:text-[#E49B0F]">
+                    <div className="mt-8 flex items-center font-semibold text-brand-gold group-hover:text-brand-accent">
                       Browse Library <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
                     </div>
                   </div>
@@ -151,15 +151,15 @@ export default function Home() {
           <Container>
             <div className="grid items-center gap-12 lg:grid-cols-2">
               <div className="relative">
-                <div className="absolute -left-10 -top-10 h-64 w-64 rounded-full bg-[#D4AF37]/15 blur-3xl" />
-                <div className="relative overflow-hidden rounded-3xl bg-[#4A0A0A] p-10 text-white shadow-2xl">
-                  <div className="mb-6 inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-widest text-[#D4AF37]">
+                <div className="absolute -left-10 -top-10 h-64 w-64 rounded-full bg-brand-gold/15 blur-3xl" />
+                <div className="relative overflow-hidden rounded-3xl bg-brand-dark p-10 text-white shadow-2xl">
+                  <div className="mb-6 inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-widest text-brand-gold">
                     WHY GURUKULAM?
                   </div>
-                  <h2 className="text-3xl font-semibold leading-tight sm:text-4xl" style={{ fontFamily: "var(--font-display)" }}>
+                  <h2 className="text-3xl font-semibold leading-tight sm:text-4xl font-display">
                     Traditional Wisdom,<br/> Modern Clarity.
                   </h2>
-                  <p className="mt-6 text-[#FFF7E6]/70 leading-relaxed">
+                  <p className="mt-6 text-brand-cream/70 leading-relaxed">
                     We believe ancient sciences shouldn't be diluted or overly complex. Our platform strips away the noise, delivering authentic Jyotish and Vastu principles through a highly focused, distraction-free environment.
                   </p>
                   <ul className="mt-8 space-y-4">
@@ -168,8 +168,8 @@ export default function Home() {
                       "Designed for focused self-study",
                       "Premium layout & typography"
                     ].map((t) => (
-                      <li key={t} className="flex items-center gap-3 text-[#FFF7E6]/90">
-                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#D4AF37]/20 text-[#D4AF37]">
+                      <li key={t} className="flex items-center gap-3 text-brand-cream/90">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-gold/20 text-brand-gold">
                           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
                         </div>
                         {t}
@@ -196,10 +196,10 @@ export default function Home() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.2 }}
-                      className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-[#4A0A0A]/5 border-l-4 border-l-[#D4AF37]"
+                      className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-brand-dark/5 border-l-4 border-l-brand-gold"
                     >
-                      <p className="text-base italic leading-relaxed text-[#4A0A0A]/80">"{t.quote}"</p>
-                      <div className="mt-4 text-sm font-bold text-[#4A0A0A]">{t.name}</div>
+                      <p className="text-base italic leading-relaxed text-brand-dark/80">"{t.quote}"</p>
+                      <div className="mt-4 text-sm font-bold text-brand-dark">{t.name}</div>
                     </motion.div>
                   ))}
                 </div>

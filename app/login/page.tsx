@@ -12,7 +12,8 @@ import { Button } from "@/components/site/Button";
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") ?? "/dashboard";
+  const rawRedirectTo = searchParams.get("redirectTo") ?? "/dashboard";
+  const redirectTo = (rawRedirectTo.startsWith("/") && !rawRedirectTo.startsWith("//")) ? rawRedirectTo : "/dashboard";
   const errorParam = searchParams.get("error");
 
   const [email, setEmail] = React.useState("");
@@ -72,7 +73,7 @@ export default function LoginPage() {
   };
 
   const inputCls =
-    "w-full rounded-xl border border-[#4A0A0A]/20 bg-white/80 px-4 py-3 text-sm text-[#1b1b1b] outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 placeholder:text-[#4A0A0A]/40";
+    "w-full rounded-xl border border-brand-dark/20 bg-white/80 px-4 py-3 text-sm text-[#1b1b1b] outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/30 placeholder:text-brand-dark/40";
 
   return (
     <SiteShell>
@@ -80,12 +81,11 @@ export default function LoginPage() {
         <Container className="max-w-md">
           <div className="mb-8 text-center">
             <div
-              className="text-3xl font-semibold text-[#4A0A0A]"
-              style={{ fontFamily: "var(--font-display)" }}
+              className="text-3xl font-semibold text-brand-dark font-display"
             >
               Welcome Back
             </div>
-            <p className="mt-2 text-sm text-[#4A0A0A]/70">
+            <p className="mt-2 text-sm text-brand-dark/70">
               Sign in to access your Kundli reports, chat history, and more.
             </p>
           </div>
@@ -93,7 +93,7 @@ export default function LoginPage() {
           <Card className="p-6 sm:p-8">
             <form onSubmit={handleLogin} className="grid gap-5">
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-semibold text-[#4A0A0A]">
+                <label className="text-sm font-semibold text-brand-dark">
                   Email
                 </label>
                 <input
@@ -109,13 +109,13 @@ export default function LoginPage() {
 
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-semibold text-[#4A0A0A]">
+                  <label className="text-sm font-semibold text-brand-dark">
                     Password
                   </label>
                   <button
                     type="button"
                     onClick={handleForgotPassword}
-                    className="text-xs font-medium text-[#D4AF37] hover:text-[#B8941F] transition"
+                    className="text-xs font-medium text-brand-gold hover:text-[#B8941F] transition"
                   >
                     Forgot password?
                   </button>
@@ -174,11 +174,11 @@ export default function LoginPage() {
               </Button>
             </form>
 
-            <div className="mt-6 text-center text-sm text-[#4A0A0A]/70">
+            <div className="mt-6 text-center text-sm text-brand-dark/70">
               Don&apos;t have an account?{" "}
               <Link
                 href="/signup"
-                className="font-semibold text-[#4A0A0A] underline underline-offset-4 hover:text-[#D4AF37] transition"
+                className="font-semibold text-brand-dark underline underline-offset-4 hover:text-brand-gold transition"
               >
                 Create one
               </Link>

@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { createClient } from "@/lib/supabase/server";
 
@@ -14,6 +14,7 @@ import { buildKundaliCacheKey, kundaliCache } from "@/lib/cache";
 import { convertBirthDataToUtc, toJulianDay } from "@/lib/utils/dateTime";
 import { GeocodingError, resolveCoordinates } from "@/lib/utils/geo";
 import { validateKundaliPayload } from "@/lib/utils/validation";
+import { rateLimit } from "@/lib/utils/rateLimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,8 +36,12 @@ function errorResponse(status: number, code: string, message: string, details?: 
 /**
  * Computes a full Vedic Kundali chart for the supplied birth details.
  */
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
+    const ip = request.ip || request.headers.get("x-forwarded-for") || "127.0.0.1";
+    const rateLimitResponse = rateLimit(ip, 10, 60000); // 10 charts per minute
+    if (rateLimitResponse) return rateLimitResponse;
+
     const rawBody = await request.json();
     
     // Map from frontend schema to API schema if needed
@@ -118,18 +123,15 @@ export async function POST(request: Request) {
       }, { onConflict: "user_id" });
 
       if (process.env.RESEND_API_KEY && user.email) {
-        try {
-          const { Resend } = await import("resend");
+        import("resend").then(({ Resend }) => {
           const resend = new Resend(process.env.RESEND_API_KEY);
-          await resend.emails.send({
+          resend.emails.send({
             from: "Jyotirveda <onboarding@resend.dev>",
-            to: user.email,
+            to: user.email!,
             subject: "Your Vedic Birth Chart is Ready!",
             html: `<p>Namaste ${payload.name},</p><p>Your Kundli has been generated successfully.</p><p><strong>Ascendant (Lagna):</strong> ${response.lagna}</p><p>Log in to your dashboard to view your complete planetary positions and chat with our AI Astrologer!</p>`,
-          });
-        } catch (e) {
-          console.error("Failed to send email", e);
-        }
+          }).catch(e => console.error("Failed to send email", e));
+        }).catch(e => console.error("Failed to import resend", e));
       }
     }
 

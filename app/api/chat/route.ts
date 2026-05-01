@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { streamChatResponse } from "@/lib/ai";
 import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
-import Groq from "groq-sdk";
+import { groq } from "@ai-sdk/groq";
+import { generateObject } from "ai";
+import { rateLimit } from "@/lib/utils/rateLimit";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -19,30 +21,40 @@ Your responses must:
 - If the user DOES NOT have a chart yet, politely ask them for their: Name, Date of Birth (YYYY-MM-DD), Time of Birth (HH:MM), and City of Birth to generate it.`;
 
 async function extractDetails(text: string): Promise<{name: string, dob: string, tob: string, city: string} | null> {
-  if (!process.env.GROQ_API_KEY) return null;
-  const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-  const prompt = `Extract Name, Date of Birth (YYYY-MM-DD), Time of Birth (HH:MM 24-hour), and City from the following text. 
-If all 4 are present, return a JSON object with keys: "name", "dob", "tob", "city". 
-If ANY are missing, return exactly "null". DO NOT wrap in markdown.
-Text: "${text}"`;
-  
   try {
-    const res = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      messages: [{ role: "user", content: prompt }],
+    const { object } = await generateObject({
+      model: groq("llama-3.3-70b-versatile"),
+      schema: z.object({
+        name: z.string().describe("User's full name"),
+        dob: z.string().describe("Date of birth in YYYY-MM-DD format"),
+        tob: z.string().describe("Time of birth in HH:MM 24-hour format"),
+        city: z.string().describe("City of birth"),
+        allPresent: z.boolean().describe("True ONLY if name, dob, tob, and city are ALL explicitly provided in the text. False if ANY are missing."),
+      }),
+      prompt: `Extract birth details from: "${text}"`,
       temperature: 0,
-      max_tokens: 100
     });
-    const out = res.choices[0]?.message?.content?.trim();
-    if (!out || out === "null") return null;
-    return JSON.parse(out);
-  } catch {
+
+    if (!object.allPresent) return null;
+    
+    return {
+      name: object.name,
+      dob: object.dob,
+      tob: object.tob,
+      city: object.city
+    };
+  } catch (error) {
     return null;
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
+    const forwardedFor = request.headers.get("x-forwarded-for");
+    const ip = request.ip || (forwardedFor ? forwardedFor.split(",")[0].trim() : "127.0.0.1");
+    const rateLimitResponse = rateLimit(ip, 20, 60000); // 20 chat msgs per minute
+    if (rateLimitResponse) return rateLimitResponse;
+
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -55,12 +67,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Token limit reached. Please recharge your tokens to continue chatting and book an online consultation!" }, { status: 403 });
     }
 
-    if (profile && profile.tokens !== null && profile.tokens > 0) {
-      await (supabase.from("profiles") as any).update({ tokens: profile.tokens - 1 }).eq("id", user.id);
-    }
-
-    const { messages } = await request.json();
+    const body = await request.json();
+    const messages = Array.isArray(body.messages) ? body.messages : [];
+    
     const lastMessage = messages[messages.length - 1]?.content || "";
+
+    if (lastMessage.length > 2000) {
+      return NextResponse.json({ error: "Message is too long. Maximum length is 2000 characters." }, { status: 400 });
+    }
 
     let { data: kundliReport } = await (supabase.from("kundli_reports") as any).select("chart_data").eq("user_id", user.id).single();
 
@@ -101,6 +115,11 @@ export async function POST(request: NextRequest) {
       chartContext = `\n\nUSER'S GENERATED CHART:\n${JSON.stringify(kundliReport.chart_data, null, 2)}${newChartMessage}`;
     } else {
       chartContext = `\n\nUSER HAS NO CHART YET. You must politely ask for Name, Date of Birth, Time of Birth, and City of Birth so the backend can generate it.`;
+    }
+
+    // Only deduct token if we are providing astrological guidance
+    if ((kundliReport?.chart_data || chartGeneratedNow) && profile && profile.tokens !== null && profile.tokens > 0) {
+      await (supabase.from("profiles") as any).update({ tokens: profile.tokens - 1 }).eq("id", user.id);
     }
 
     // Prepend the system prompt manually to the messages array since streamChatResponse takes user/assistant messages

@@ -56,16 +56,15 @@ export default async function DashboardPage() {
               },
             ].map((item) => (
               <Card key={item.title} className="p-6">
-                <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#D4AF37]/18 text-lg text-[#4A0A0A]">
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-brand-gold/18 text-lg text-brand-dark">
                   {item.icon}
                 </div>
                 <h3
-                  className="mt-3 text-base font-semibold text-[#4A0A0A]"
-                  style={{ fontFamily: "var(--font-display)" }}
+                  className="mt-3 text-base font-semibold text-brand-dark font-display"
                 >
                   {item.title}
                 </h3>
-                <p className="mt-1 text-sm text-[#4A0A0A]/70">
+                <p className="mt-1 text-sm text-brand-dark/70">
                   {item.description}
                 </p>
                 <div className="mt-4">
@@ -81,14 +80,13 @@ export default async function DashboardPage() {
           <div className="mt-10 grid gap-6 lg:grid-cols-2">
             <Card className="p-6">
               <h2
-                className="text-base font-semibold text-[#4A0A0A]"
-                style={{ fontFamily: "var(--font-display)" }}
+                className="text-base font-semibold text-brand-dark font-display"
               >
                 Recent Kundli Reports
               </h2>
-              <div className="mt-4 flex flex-col items-center gap-3 rounded-xl bg-[#FFF7E6]/60 py-8 text-center ring-1 ring-[#4A0A0A]/10">
+              <div className="mt-4 flex flex-col items-center gap-3 rounded-xl bg-brand-cream/60 py-8 text-center ring-1 ring-brand-dark/10">
                 <span className="text-2xl">✦</span>
-                <p className="text-sm text-[#4A0A0A]/60">
+                <p className="text-sm text-brand-dark/60">
                   No reports yet. Generate your first Kundli.
                 </p>
                 <Button variant="secondary" href="/kundli">
@@ -99,14 +97,13 @@ export default async function DashboardPage() {
 
             <Card className="p-6">
               <h2
-                className="text-base font-semibold text-[#4A0A0A]"
-                style={{ fontFamily: "var(--font-display)" }}
+                className="text-base font-semibold text-brand-dark font-display"
               >
                 Recent Chats
               </h2>
-              <div className="mt-4 flex flex-col items-center gap-3 rounded-xl bg-[#FFF7E6]/60 py-8 text-center ring-1 ring-[#4A0A0A]/10">
+              <div className="mt-4 flex flex-col items-center gap-3 rounded-xl bg-brand-cream/60 py-8 text-center ring-1 ring-brand-dark/10">
                 <span className="text-2xl">ॐ</span>
-                <p className="text-sm text-[#4A0A0A]/60">
+                <p className="text-sm text-brand-dark/60">
                   No conversations yet. Ask our AI Astrologer.
                 </p>
                 <Button variant="secondary" href="/chat">
@@ -121,14 +118,13 @@ export default async function DashboardPage() {
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h2
-                  className="text-base font-semibold text-[#4A0A0A]"
-                  style={{ fontFamily: "var(--font-display)" }}
+                  className="text-base font-semibold text-brand-dark font-display"
                 >
                   My Profile
                 </h2>
-                <p className="mt-1 text-sm text-[#4A0A0A]/60">
+                <p className="mt-1 text-sm text-brand-dark/60">
                   Signed in as{" "}
-                  <span className="font-medium text-[#4A0A0A]">
+                  <span className="font-medium text-brand-dark">
                     {user.email}
                   </span>
                 </p>

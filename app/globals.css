@@ -1,17 +1,6 @@
-/* Google Fonts – Cinzel (display) + Tiro Devanagari Sanskrit (Sanskrit)
-   Loaded at runtime; build uses system fallbacks below. */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* CSS custom font variables
-   Falls back to system serif fonts when Google Fonts is unavailable. */
-:root {
-  --font-display: 'Cinzel', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
-  --font-sanskrit: 'Tiro Devanagari Sanskrit', 'Noto Serif Devanagari', 'Mangal', serif;
-}
 
 /* No global colors; components decide their own colors */
 body {
@@ -20,12 +9,6 @@ body {
 
 html {
   scroll-behavior: smooth;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
 }
 
 /* Custom Om Toploader Spinner */

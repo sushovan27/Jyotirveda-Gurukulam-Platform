@@ -8,7 +8,20 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {}, // no themed colors mapped
+    extend: {
+      colors: {
+        brand: {
+          dark: "#4A0A0A",
+          gold: "#D4AF37",
+          cream: "#FFF7E6",
+          accent: "#E49B0F"
+        }
+      },
+      fontFamily: {
+        display: ["var(--font-cinzel)", "serif"],
+        sanskrit: ["var(--font-tiro)", "serif"],
+      }
+    },
   },
   plugins: [],
 };

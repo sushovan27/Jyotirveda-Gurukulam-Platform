@@ -5,6 +5,8 @@ export type CatalogCourse = {
   level: "Beginner" | "Intermediate" | "Advanced";
   duration: string;
   highlights: string[];
+  whoItsFor?: string;
+  outcome?: string;
   priceLabel: string;
 };
 
@@ -20,29 +22,35 @@ export type CatalogEbook = {
 export const courses: CatalogCourse[] = [
   {
     slug: "vedic-astrology-mastery",
-    title: "Vedic Astrology",
-    subtitle: "Master the complete science of Jyotish and chart reading.",
-    level: "Advanced",
-    duration: "12 months",
+    title: "Vedic Astrology Mastery",
+    subtitle: "Master the complete science of Jyotish and chart reading",
+    level: "Intermediate",
+    duration: "8 Weeks",
     highlights: ["Complete Jyotish Science", "Chart Reading Mastery", "Predictive Techniques"],
+    whoItsFor: "Astrology enthusiasts, spiritual seekers, and practitioners who want to offer chart reading services",
+    outcome: "Students can independently read and interpret full birth charts and make predictions",
     priceLabel: "₹23,999",
   },
   {
     slug: "numerology-mastery",
     title: "Numerology Mastery",
-    subtitle: "Unlock the power of numbers and their influence on destiny.",
-    level: "Intermediate",
-    duration: "8 weeks",
+    subtitle: "Unlock the power of numbers and their influence on destiny",
+    level: "Advanced",
+    duration: "16 Weeks",
     highlights: ["Life Path Numbers", "Name Correction", "Destiny Calculation"],
+    whoItsFor: "Coaches, healers, and anyone drawn to number-based guidance and personal transformation",
+    outcome: "Students can offer professional numerology consultations and name correction services",
     priceLabel: "₹4,999",
   },
   {
     slug: "vastu-shastra",
     title: "Vastu Shastra",
-    subtitle: "Harmonize spaces with ancient architectural wisdom.",
-    level: "Advanced",
-    duration: "16 weeks",
+    subtitle: "Harmonize spaces with ancient architectural wisdom",
+    level: "Intermediate",
+    duration: "Self-paced",
     highlights: ["Space Harmonization", "Directional Remedies", "Energy Optimization"],
+    whoItsFor: "Homeowners, architects, interior designers, and spiritual consultants",
+    outcome: "Students can conduct Vastu audits and recommend remedies for homes, offices, and commercial spaces",
     priceLabel: "₹5,999",
   },
 ];

@@ -59,7 +59,7 @@ export default function SignupPage() {
   };
 
   const inputCls =
-    "w-full rounded-xl border border-[#4A0A0A]/20 bg-white/80 px-4 py-3 text-sm text-[#1b1b1b] outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 placeholder:text-[#4A0A0A]/40";
+    "w-full rounded-xl border border-brand-dark/20 bg-white/80 px-4 py-3 text-sm text-[#1b1b1b] outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/30 placeholder:text-brand-dark/40";
 
   if (success) {
     return (
@@ -82,14 +82,13 @@ export default function SignupPage() {
                 </svg>
               </div>
               <h2
-                className="mt-5 text-xl font-semibold text-[#4A0A0A]"
-                style={{ fontFamily: "var(--font-display)" }}
+                className="mt-5 text-xl font-semibold text-brand-dark font-display"
               >
                 Check your email
               </h2>
-              <p className="mt-2 text-sm text-[#4A0A0A]/70">
+              <p className="mt-2 text-sm text-brand-dark/70">
                 We&apos;ve sent a confirmation link to{" "}
-                <strong className="text-[#4A0A0A]">{email}</strong>. Click the
+                <strong className="text-brand-dark">{email}</strong>. Click the
                 link to activate your account.
               </p>
               <div className="mt-6">
@@ -110,12 +109,11 @@ export default function SignupPage() {
         <Container className="max-w-md">
           <div className="mb-8 text-center">
             <div
-              className="text-3xl font-semibold text-[#4A0A0A]"
-              style={{ fontFamily: "var(--font-display)" }}
+              className="text-3xl font-semibold text-brand-dark font-display"
             >
               Create Your Account
             </div>
-            <p className="mt-2 text-sm text-[#4A0A0A]/70">
+            <p className="mt-2 text-sm text-brand-dark/70">
               Join the digital gurukulam—save your Kundli reports, chat history,
               and daily horoscopes.
             </p>
@@ -124,7 +122,7 @@ export default function SignupPage() {
           <Card className="p-6 sm:p-8">
             <form onSubmit={handleSignup} className="grid gap-5">
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-semibold text-[#4A0A0A]">
+                <label className="text-sm font-semibold text-brand-dark">
                   Full Name
                 </label>
                 <input
@@ -139,7 +137,7 @@ export default function SignupPage() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-semibold text-[#4A0A0A]">
+                <label className="text-sm font-semibold text-brand-dark">
                   Email
                 </label>
                 <input
@@ -154,7 +152,7 @@ export default function SignupPage() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-semibold text-[#4A0A0A]">
+                <label className="text-sm font-semibold text-brand-dark">
                   Password
                 </label>
                 <input
@@ -170,7 +168,7 @@ export default function SignupPage() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-semibold text-[#4A0A0A]">
+                <label className="text-sm font-semibold text-brand-dark">
                   Confirm Password
                 </label>
                 <input
@@ -221,25 +219,25 @@ export default function SignupPage() {
               </Button>
             </form>
 
-            <div className="mt-6 text-center text-sm text-[#4A0A0A]/70">
+            <div className="mt-6 text-center text-sm text-brand-dark/70">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="font-semibold text-[#4A0A0A] underline underline-offset-4 hover:text-[#D4AF37] transition"
+                className="font-semibold text-brand-dark underline underline-offset-4 hover:text-brand-gold transition"
               >
                 Sign in
               </Link>
             </div>
 
-            <p className="mt-4 text-center text-xs text-[#4A0A0A]/50">
+            <p className="mt-4 text-center text-xs text-brand-dark/50">
               By creating an account, you agree to our{" "}
-              <Link href="/terms" className="underline hover:text-[#4A0A0A]/70">
+              <Link href="/terms" className="underline hover:text-brand-dark/70">
                 Terms
               </Link>{" "}
               and{" "}
               <Link
                 href="/privacy"
-                className="underline hover:text-[#4A0A0A]/70"
+                className="underline hover:text-brand-dark/70"
               >
                 Privacy Policy
               </Link>
