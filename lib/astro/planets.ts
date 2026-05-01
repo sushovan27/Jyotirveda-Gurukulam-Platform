@@ -71,7 +71,8 @@ export async function calculatePlanetaryPositions(
       nakshatra: nakshatra.name,
       nakshatraLord: nakshatra.lord,
       pada: nakshatra.pada,
-      house: getWholeSignHouse(siderealLongitude, lagnaSignIndex)
+      house: getWholeSignHouse(siderealLongitude, lagnaSignIndex),
+      isRetrograde: result.longitudeSpeed < 0
     });
   }
 
@@ -85,7 +86,8 @@ export async function calculatePlanetaryPositions(
     nakshatra: ketuNakshatra.name,
     nakshatraLord: ketuNakshatra.lord,
     pada: ketuNakshatra.pada,
-    house: getWholeSignHouse(ketuLongitude, lagnaSignIndex)
+    house: getWholeSignHouse(ketuLongitude, lagnaSignIndex),
+    isRetrograde: true
   });
 
   return planets;

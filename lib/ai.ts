@@ -234,6 +234,16 @@ export async function generateAllHoroscopes(): Promise<
   }, {});
 }
 
+export async function generateChatResponse(
+  messages: ChatMessage[],
+  options: { temperature?: number; maxTokens?: number } = {}
+): Promise<string> {
+  return callWithFallback(messages, {
+    temperature: options.temperature ?? 0.7,
+    maxTokens: options.maxTokens ?? 1024
+  });
+}
+
 /**
  * Stream a conversational AI astrologer response.
  * Returns a ReadableStream of text chunks.

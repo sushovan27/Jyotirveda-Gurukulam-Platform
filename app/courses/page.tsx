@@ -6,7 +6,18 @@ import { SiteShell } from "@/components/site/SiteShell";
 import { Container } from "@/components/site/Container";
 import { courses } from "@/lib/content/catalog";
 import { CourseBookingModal } from "@/components/site/CourseBookingModal";
-import { SectionHeading } from "@/components/site/SectionHeading";
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease } }
+};
+
+const stagger = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+};
 
 export default function CoursesPage() {
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
@@ -20,19 +31,34 @@ export default function CoursesPage() {
   return (
     <SiteShell>
       {/* Hero Section */}
-      <section className="relative pt-20 pb-16 sm:pt-28 sm:pb-20 text-center">
-        <Container>
+      <section className="relative pt-20 pb-16 sm:pt-28 sm:pb-20 text-center overflow-hidden">
+        {/* Background glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-32 left-1/2 h-[400px] w-[400px] -translate-x-1/2 rounded-full bg-brand-gold/10 blur-3xl" />
+        </div>
+
+        <Container className="relative">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{ duration: 0.6, ease }}
           >
-            <h1 className="font-display text-4xl font-bold leading-tight sm:text-5xl md:text-6xl text-brand-dark pb-4">
-              Ancient Wisdom.<br/>Modern Mastery.
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-gold mb-4">Learn from Masters</p>
+            <h1 className="font-display text-4xl font-bold leading-tight sm:text-5xl md:text-6xl text-brand-dark">
+              Ancient Wisdom.
+              <br />
+              <span className="bg-gradient-to-r from-brand-gold via-brand-accent to-brand-gold bg-clip-text text-transparent">
+                Modern Mastery.
+              </span>
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-lg sm:text-xl text-brand-dark/70 leading-relaxed">
-              Learn Vedic Astrology, Numerology & Vastu Shastra from certified masters.
-            </p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="mx-auto mt-5 max-w-2xl text-base sm:text-lg text-brand-dark/65 leading-relaxed"
+            >
+              Learn Vedic Astrology, Numerology &amp; Vastu Shastra from certified masters through structured, in-depth programmes.
+            </motion.p>
           </motion.div>
         </Container>
       </section>
@@ -40,40 +66,43 @@ export default function CoursesPage() {
       {/* Courses Grid */}
       <section id="courses-grid" className="relative pb-24 sm:pb-32">
         <Container>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {courses.map((course, i) => (
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-50px" }}
+            className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {courses.map((course) => (
               <motion.div
                 key={course.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group flex flex-col overflow-hidden rounded-2xl bg-white border border-brand-dark/10 p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl"
+                variants={fadeUp}
+                className="group flex flex-col overflow-hidden rounded-2xl bg-white/80 backdrop-blur-sm border border-brand-dark/8 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_60px_-15px_rgba(212,175,55,0.15)] hover:border-brand-gold/20"
               >
                 <div className="mb-6 flex items-center justify-between">
                   <span className="rounded-full bg-brand-gold/10 px-3 py-1 text-xs font-semibold tracking-wider text-brand-accent">
                     {course.level}
                   </span>
-                  <span className="text-sm font-medium text-brand-dark/70">
+                  <span className="text-sm font-medium text-brand-dark/55">
                     {course.duration}
                   </span>
                 </div>
 
-                <h3 className="font-display text-2xl font-bold text-brand-dark mb-3">
+                <h3 className="font-display text-2xl font-bold text-brand-dark mb-3 transition-colors duration-200 group-hover:text-brand-dark">
                   {course.title}
                 </h3>
                 
-                <p className="text-brand-dark/70 text-sm leading-relaxed mb-8 flex-1">
+                <p className="text-brand-dark/65 text-sm leading-relaxed mb-8 flex-1">
                   {course.subtitle}
                 </p>
 
                 <div className="mb-8 space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-widest text-brand-dark/50">
+                  <h4 className="text-[10px] font-bold uppercase tracking-[0.16em] text-brand-dark/45">
                     Curriculum Highlights
                   </h4>
                   <ul className="space-y-2">
                     {course.highlights.map((highlight, idx) => (
-                      <li key={idx} className="flex text-sm text-brand-dark/80 leading-relaxed">
+                      <li key={idx} className="flex text-sm text-brand-dark/75 leading-relaxed">
                         <span className="mr-3 mt-0.5 text-brand-gold font-bold">•</span>
                         <span>{highlight}</span>
                       </li>
@@ -81,9 +110,9 @@ export default function CoursesPage() {
                   </ul>
                 </div>
 
-                <div className="mt-auto border-t border-brand-dark/10 pt-6">
+                <div className="mt-auto border-t border-brand-dark/8 pt-6">
                   <div className="flex items-center justify-between mb-6">
-                    <span className="text-sm text-brand-dark/50 font-medium">Tuition</span>
+                    <span className="text-xs font-medium text-brand-dark/45 uppercase tracking-wider">Tuition</span>
                     <span className="font-display text-2xl font-bold text-brand-dark">
                       {course.priceLabel}
                     </span>
@@ -91,14 +120,14 @@ export default function CoursesPage() {
                   
                   <button
                     onClick={() => handleBookNow(course.title)}
-                    className="w-full rounded-xl bg-brand-dark px-6 py-3.5 font-semibold text-brand-cream transition-all hover:bg-[#3A0707] shadow-md"
+                    className="w-full rounded-xl bg-brand-dark px-6 py-3.5 font-semibold text-brand-cream transition-all duration-200 hover:bg-[#3A0707] hover:shadow-lg active:scale-[0.97] shadow-md"
                   >
                     Book Now
                   </button>
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </Container>
       </section>
 
@@ -107,7 +136,7 @@ export default function CoursesPage() {
         href="https://wa.me/918697332855" 
         target="_blank" 
         rel="noreferrer"
-        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 transition-transform hover:scale-110"
+        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 transition-all duration-200 hover:scale-110 active:scale-100"
         aria-label="Chat on WhatsApp"
       >
         <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7">

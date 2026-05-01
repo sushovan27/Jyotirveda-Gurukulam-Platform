@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+	poweredByHeader: false,
 	serverExternalPackages: ["sweph"],
 	turbopack: {},
 	images: {

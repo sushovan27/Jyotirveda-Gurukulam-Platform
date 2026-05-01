@@ -8,6 +8,21 @@ const PROTECTED_ROUTES = ['/dashboard', '/chat']
 // Routes that authenticated users should NOT see (redirect to dashboard)
 const AUTH_ROUTES = ['/login', '/signup']
 
+function applySecurityHeaders(response: NextResponse) {
+  response.headers.set('X-Frame-Options', 'DENY')
+  response.headers.set('X-Content-Type-Options', 'nosniff')
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+  response.headers.set('Cross-Origin-Opener-Policy', 'same-origin')
+  response.headers.set('Cross-Origin-Resource-Policy', 'same-origin')
+
+  if (process.env.NODE_ENV === 'production') {
+    response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains')
+  }
+
+  return response
+}
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -21,7 +36,7 @@ export async function updateSession(request: NextRequest) {
     !supabaseAnonKey ||
     !supabaseUrl.startsWith('http')
   ) {
-    return supabaseResponse
+    return applySecurityHeaders(supabaseResponse)
   }
 
   const supabase = createServerClient(
@@ -63,7 +78,7 @@ export async function updateSession(request: NextRequest) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     url.searchParams.set('redirectTo', pathname)
-    return NextResponse.redirect(url)
+    return applySecurityHeaders(NextResponse.redirect(url))
   }
 
   // Redirect authenticated users away from login/signup pages
@@ -71,7 +86,7 @@ export async function updateSession(request: NextRequest) {
   if (user && isAuthRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
-    return NextResponse.redirect(url)
+    return applySecurityHeaders(NextResponse.redirect(url))
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
@@ -87,5 +102,5 @@ export async function updateSession(request: NextRequest) {
   // If this is not done, you may be causing the browser and server to go out
   // of sync and terminate the user's session prematurely!
 
-  return supabaseResponse
+  return applySecurityHeaders(supabaseResponse)
 }

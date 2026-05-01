@@ -8,13 +8,13 @@ const TIME_PATTERN = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
 
 export const kundaliRequestSchema = z
   .object({
-    name: z.string().trim().min(1, "Name is required."),
+    name: z.string().trim().min(1, "Name is required.").max(100, "Name is too long."),
     birthDate: z.string().regex(DATE_PATTERN, "birthDate must match YYYY-MM-DD."),
     birthTime: z.string().regex(TIME_PATTERN, "birthTime must match HH:MM in 24-hour format."),
     latitude: z.number().finite().optional(),
     longitude: z.number().finite().optional(),
     timezone: z.string().trim().min(1, "Timezone is required."),
-    city: z.string().trim().min(1).optional()
+    city: z.string().trim().min(1).max(150, "City is too long.").optional()
   })
   .superRefine((value, context) => {
     if (

@@ -1,4 +1,7 @@
+"use client";
+
 import * as React from "react";
+import { motion } from "framer-motion";
 import { Ornament } from "@/components/site/Ornament";
 
 type SectionHeadingProps = {
@@ -16,7 +19,13 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   const isCenter = align === "center";
   return (
-    <div className={isCenter ? "text-center" : ""}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className={isCenter ? "text-center" : ""}
+    >
       {eyebrow ? (
         <div
           className={[
@@ -25,7 +34,8 @@ export function SectionHeading({
           ].join(" ")}
         >
           <span style={{ fontFamily: "var(--font-sanskrit)" }}>शुभम्</span>
-          <span>{eyebrow}</span>
+          <span className="h-3 w-px bg-brand-dark/20" />
+          <span className="uppercase tracking-[0.12em]">{eyebrow}</span>
         </div>
       ) : null}
       <div className={isCenter ? "mx-auto max-w-2xl" : "max-w-2xl"}>
@@ -35,15 +45,15 @@ export function SectionHeading({
           {title}
         </h2>
         {description ? (
-          <p className="mt-2 text-pretty text-sm leading-relaxed text-brand-dark/75 sm:text-base">
+          <p className="mt-3 text-pretty text-sm leading-relaxed text-brand-dark/70 sm:text-base">
             {description}
           </p>
         ) : null}
       </div>
 
-      <div className={isCenter ? "mx-auto mt-4 h-10 w-10" : "mt-4 h-10 w-10"}>
-        <Ornament className="h-full w-full text-brand-gold" />
+      <div className={isCenter ? "mx-auto mt-5 h-8 w-8" : "mt-5 h-8 w-8"}>
+        <Ornament className="h-full w-full text-brand-gold opacity-70" />
       </div>
-    </div>
+    </motion.div>
   );
 }

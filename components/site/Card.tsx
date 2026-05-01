@@ -3,19 +3,21 @@ import * as React from "react";
 type CardProps = {
   className?: string;
   children: React.ReactNode;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
-export function Card({ className, children, onClick }: CardProps) {
+export function Card({ className, children, ...props }: CardProps) {
   return (
     <div
       className={[
-        "rounded-2xl bg-white/70 backdrop-blur",
-        "ring-1 ring-brand-dark/10",
-        "shadow-[0_18px_50px_-28px_rgba(74,10,10,0.35)]",
+        "relative rounded-2xl bg-white/75 backdrop-blur-sm",
+        "ring-1 ring-brand-dark/8",
+        "shadow-[0_8px_30px_-12px_rgba(74,10,10,0.12)]",
+        "transition-all duration-300 ease-out",
+        "hover:shadow-[0_20px_50px_-15px_rgba(74,10,10,0.18)]",
+        "hover:ring-brand-gold/20",
         className,
       ].join(" ")}
-      onClick={onClick}
+      {...props}
     >
       {children}
     </div>

@@ -20,6 +20,27 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
+function assertSameOrigin(request: NextRequest) {
+  const origin = request.headers.get("origin");
+  const referer = request.headers.get("referer");
+  const requestOrigin = request.nextUrl.origin;
+
+  if (origin && origin !== requestOrigin) {
+    throw new Error("Cross-origin requests are not allowed.");
+  }
+
+  if (referer) {
+    try {
+      const refererOrigin = new URL(referer).origin;
+      if (refererOrigin !== requestOrigin) {
+        throw new Error("Cross-origin requests are not allowed.");
+      }
+    } catch {
+      throw new Error("Invalid request origin.");
+    }
+  }
+}
+
 function errorResponse(status: number, code: string, message: string, details?: unknown) {
   return NextResponse.json(
     {
@@ -33,12 +54,62 @@ function errorResponse(status: number, code: string, message: string, details?: 
   );
 }
 
+function inferYogas(planets: KundaliResponse["planets"], moonSign: string) {
+  const yogas = new Set<string>();
+  const moon = planets.find((planet) => planet.name === "Moon");
+  const jupiter = planets.find((planet) => planet.name === "Jupiter");
+  const sun = planets.find((planet) => planet.name === "Sun");
+  const mercury = planets.find((planet) => planet.name === "Mercury");
+
+  if (moon && jupiter && [1, 4, 7, 10].includes(((jupiter.house - moon.house + 12) % 12) + 1)) {
+    yogas.add("Gajakesari Yoga");
+  }
+
+  if (sun && mercury && sun.house === mercury.house) {
+    yogas.add("Budhaditya Yoga");
+  }
+
+  if (moonSign === "Cancer" || moonSign === "Taurus") {
+    yogas.add("Chandra Bala Support");
+  }
+
+  return Array.from(yogas);
+}
+
+function inferDoshas(planets: KundaliResponse["planets"]) {
+  const mars = planets.find((planet) => planet.name === "Mars");
+  const rahu = planets.find((planet) => planet.name === "Rahu");
+  const ketu = planets.find((planet) => planet.name === "Ketu");
+  const realPlanets = planets.filter((planet) => !["Rahu", "Ketu"].includes(planet.name));
+
+  const manglik = mars ? [1, 2, 4, 7, 8, 12].includes(mars.house) : false;
+  const pitruDosha = rahu ? [1, 5, 9, 10].includes(rahu.house) : false;
+  const kaalSarpa =
+    rahu && ketu
+      ? realPlanets.every((planet) => {
+          const house = planet.house;
+          const start = rahu.house;
+          const end = ketu.house;
+
+          if (start <= end) {
+            return house >= start && house <= end;
+          }
+
+          return house >= start || house <= end;
+        })
+      : false;
+
+  return { manglik, kaalSarpa, pitruDosha };
+}
+
 /**
  * Computes a full Vedic Kundali chart for the supplied birth details.
  */
 export async function POST(request: NextRequest) {
   try {
-    const ip = request.ip || request.headers.get("x-forwarded-for") || "127.0.0.1";
+    assertSameOrigin(request);
+
+    const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
     const rateLimitResponse = rateLimit(ip, 10, 60000); // 10 charts per minute
     if (rateLimitResponse) return rateLimitResponse;
 
@@ -73,7 +144,8 @@ export async function POST(request: NextRequest) {
     if (cached) {
       return NextResponse.json({ interpretation: cached }, {
         headers: {
-          "X-Cache": "HIT"
+          "X-Cache": "HIT",
+          "Cache-Control": "no-store"
         }
       });
     }
@@ -88,8 +160,30 @@ export async function POST(request: NextRequest) {
     const dasha = buildVimshottariDasha(moon.longitude, birthDateTimeUtc, DateTime.utc());
     const divisionalCharts = buildDivisionalCharts(planets);
 
+    const sun = planets.find((planet) => planet.name === "Sun");
+
+    if (!sun) {
+      throw new Error("Sun placement could not be determined.");
+    }
+
+    const moonSign = moon.rashi;
+    const sunSign = sun.rashi;
+    const yogas = inferYogas(planets, moonSign);
+    const doshas = inferDoshas(planets);
+
     const response: KundaliResponse = {
+      name: payload.name,
+      birthDetails: {
+        date: payload.birthDate,
+        time: payload.birthTime,
+        place: payload.city ?? "Unknown",
+        latitude: coordinates.latitude,
+        longitude: coordinates.longitude,
+        timezone: payload.timezone
+      },
       lagna: ascendant.sign,
+      moonSign,
+      sunSign,
       lagnaLongitude: ascendant.siderealLongitude,
       ayanamsa,
       rashiChart,
@@ -103,7 +197,9 @@ export async function POST(request: NextRequest) {
       houses,
       dasha,
       divisionalCharts,
-      birthTimestampUtc: birthDateTimeUtc.toISO() ?? birthDateTimeUtc.toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+      birthTimestampUtc: birthDateTimeUtc.toISO() ?? birthDateTimeUtc.toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+      yogas,
+      doshas
     };
 
     kundaliCache.set(cacheKey, response);
@@ -137,10 +233,15 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ interpretation: response }, {
       headers: {
-        "X-Cache": "MISS"
+        "X-Cache": "MISS",
+        "Cache-Control": "no-store"
       }
     });
   } catch (error) {
+    if (error instanceof Error && (error.message.includes("Cross-origin") || error.message.includes("Invalid request origin"))) {
+      return errorResponse(403, "FORBIDDEN", error.message);
+    }
+
     if (error instanceof ZodError) {
       return errorResponse(
         400,

@@ -40,6 +40,7 @@ export interface PlanetPosition {
   nakshatraLord: DashaLord;
   pada: number;
   house: number;
+  isRetrograde?: boolean;
 }
 
 export interface HouseDetail {
@@ -109,6 +110,7 @@ export interface DashaSummaryPeriod {
 export interface DashaResponse {
   mahadasha: DashaSummaryPeriod;
   antardasha: DashaSummaryPeriod;
+  pratyantar?: DashaSummaryPeriod;
   timeline: MahadashaPeriod[];
 }
 
@@ -118,7 +120,18 @@ export interface DivisionalCharts {
 }
 
 export interface KundaliResponse {
+  name: string;
+  birthDetails: {
+    date: string;
+    time: string;
+    place: string;
+    latitude: number;
+    longitude: number;
+    timezone: string;
+  };
   lagna: string;
+  moonSign: string;
+  sunSign: string;
   lagnaLongitude: number;
   ayanamsa: number;
   rashiChart: RashiChart;
@@ -133,4 +146,10 @@ export interface KundaliResponse {
   dasha: DashaResponse;
   divisionalCharts: DivisionalCharts;
   birthTimestampUtc: string;
+  yogas: string[];
+  doshas: {
+    manglik: boolean;
+    kaalSarpa: boolean;
+    pitruDosha: boolean;
+  };
 }

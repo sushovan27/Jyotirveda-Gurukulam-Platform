@@ -75,6 +75,37 @@ function formatMahadashaPeriod(period: RawMahadashaPeriod): MahadashaPeriod {
   };
 }
 
+function buildPratyantarSegments(
+  mahaLord: DashaLord,
+  antaraLord: DashaLord,
+  antaraStart: DateTime,
+  antaraEnd: DateTime,
+  mahaYears: number
+): RawAntardashaPeriod[] {
+  const startIndex = DASHA_SEQUENCE.indexOf(antaraLord);
+  const antardashaYears = (mahaYears * DASHA_YEARS[antaraLord]) / 120;
+  const segments: RawAntardashaPeriod[] = [];
+  let cursor = antaraStart;
+
+  for (let offset = 0; offset < DASHA_SEQUENCE.length; offset += 1) {
+    const lord = DASHA_SEQUENCE[(startIndex + offset) % DASHA_SEQUENCE.length];
+    const pratyantarYears = (antardashaYears * DASHA_YEARS[lord]) / 120;
+    const segmentEnd = addDashaYears(cursor, pratyantarYears);
+
+    if (segmentEnd > antaraStart && cursor < antaraEnd) {
+      segments.push({
+        lord,
+        startAt: cursor < antaraStart ? antaraStart : cursor,
+        endAt: segmentEnd > antaraEnd ? antaraEnd : segmentEnd
+      });
+    }
+
+    cursor = segmentEnd;
+  }
+
+  return segments;
+}
+
 /**
  * Builds a 120-year Vimshottari dasha timeline from the Moon's sidereal longitude.
  */
@@ -124,6 +155,19 @@ export function buildVimshottariDasha(
   const currentAntardasha =
     (currentMahadasha ? findPeriodAtDate(currentMahadasha.antardashas, referenceDateUtc) : undefined) ??
     currentMahadasha?.antardashas[currentMahadasha.antardashas.length - 1];
+  const currentPratyantar =
+    currentMahadasha && currentAntardasha
+      ? findPeriodAtDate(
+          buildPratyantarSegments(
+            currentMahadasha.lord,
+            currentAntardasha.lord,
+            currentAntardasha.startAt,
+            currentAntardasha.endAt,
+            DASHA_YEARS[currentMahadasha.lord]
+          ),
+          referenceDateUtc
+        )
+      : undefined;
 
   if (!currentMahadasha || !currentAntardasha) {
     throw new Error("Unable to derive Vimshottari dasha periods.");
@@ -142,6 +186,13 @@ export function buildVimshottariDasha(
       start: formatIsoDate(currentAntardasha.startAt),
       end: formatIsoDate(currentAntardasha.endAt)
     },
+    pratyantar: currentPratyantar
+      ? {
+          lord: currentPratyantar.lord,
+          start: formatIsoDate(currentPratyantar.startAt),
+          end: formatIsoDate(currentPratyantar.endAt)
+        }
+      : undefined,
     timeline
   };
 }

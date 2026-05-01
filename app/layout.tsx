@@ -1,65 +1,89 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Cinzel, Tiro_Devanagari_Sanskrit } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
-  weight: "100 900",
+  weight: "100 900"
 });
+
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
-  weight: "100 900",
+  weight: "100 900"
 });
 
 const cinzel = Cinzel({
   subsets: ["latin"],
   variable: "--font-cinzel",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"]
 });
 
 const tiro = Tiro_Devanagari_Sanskrit({
   subsets: ["devanagari"],
   variable: "--font-tiro",
-  weight: "400",
+  weight: "400"
 });
+
+import { Viewport } from "next";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
   title: {
-    default: "Jyotirvedanta Gurukulam | Premium Vedic Astrology",
-    template: "%s • Jyotirvedanta Gurukulam",
+    default: "Jyotirveda Gurukulam | Vedic Astrology, Kundali and Consultations",
+    template: "%s | Jyotirveda Gurukulam"
   },
   description:
-    "A premium digital gurukulam for authentic Vedic astrology courses, accurate Kundli generation, online consultations, and traditional Jyotish knowledge.",
+    "Jyotirveda Gurukulam offers Vedic astrology guidance, free Kundali generation, AI chart insights, Jyotisha courses, and personal consultations rooted in traditional wisdom.",
   keywords: [
-    "Vedic Astrology", "Jyotish", "Kundli", "Online Astrology Courses", 
-    "Vastu Shastra", "Numerology", "Astrology Consultations", 
-    "Hindu Astrology", "Birth Chart", "Horoscope"
+    "Vedic Astrology",
+    "Jyotish",
+    "Kundli",
+    "Kundali",
+    "Birth Chart Reading",
+    "Vimshottari Dasha",
+    "Numerology",
+    "Vastu Shastra",
+    "Astrology Consultation",
+    "Online Astrology Courses",
+    "AI Astrology Chat",
+    "Horoscope"
   ],
-  authors: [{ name: "Jyotirvedanta Gurukulam" }],
-  creator: "Jyotirvedanta Gurukulam",
-  publisher: "Jyotirvedanta Gurukulam",
+  authors: [{ name: "Jyotirveda Gurukulam" }],
+  creator: "Jyotirveda Gurukulam",
+  publisher: "Jyotirveda Gurukulam",
   metadataBase: new URL("https://jyotirvedantagurukulam.in"),
+  alternates: {
+    canonical: "/"
+  },
   openGraph: {
-    title: "Jyotirvedanta Gurukulam | Authentic Vedic Astrology",
+    title: "Jyotirveda Gurukulam | Authentic Vedic Astrology and Kundali Guidance",
     description:
-      "Master the science of Jyotish. Generate accurate birth charts, book expert consultations, and enroll in our premium online Vedic astrology masterclasses.",
+      "Generate your Kundali, understand your dashas, study Jyotisha, and book personalised consultations through a focused digital gurukulam.",
     url: "https://jyotirvedantagurukulam.in",
-    siteName: "Jyotirvedanta Gurukulam",
+    siteName: "Jyotirveda Gurukulam",
     type: "website",
-    images: [{
-      url: "/og-image.jpg", // Placeholder for future OG image
-      width: 1200,
-      height: 630,
-      alt: "Jyotirvedanta Gurukulam Preview"
-    }]
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Jyotirveda Gurukulam Preview"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jyotirvedanta Gurukulam | Vedic Astrology",
-    description: "Authentic Vedic astrology courses, Kundli generation, and expert consultations.",
+    title: "Jyotirveda Gurukulam | Vedic Astrology",
+    description: "Free Kundali generation, chart-based astrology guidance, courses, and personalised consultations.",
     creator: "@jyotirveda"
   },
   robots: {
@@ -70,31 +94,29 @@ export const metadata: Metadata = {
       follow: true,
       "max-video-preview": -1,
       "max-image-preview": "large",
-      "max-snippet": -1,
-    },
+      "max-snippet": -1
+    }
   },
   icons: {
     icon: "/icon.svg",
-    apple: "/apple-icon.png",
+    apple: "/apple-icon.png"
   },
-  manifest: "/manifest.json",
+  manifest: "/manifest.json"
 };
 
-import NextTopLoader from "nextjs-toploader";
-
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <head>
-        <script 
-          async 
+        <script
+          async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2213817145109266"
           crossOrigin="anonymous"
-        ></script>
+        />
       </head>
       <body
         className={[
@@ -102,15 +124,15 @@ export default function RootLayout({
           geistMono.variable,
           cinzel.variable,
           tiro.variable,
-          "antialiased",
+          "antialiased"
         ].join(" ")}
       >
-        <NextTopLoader 
+        <NextTopLoader
           color="#D4AF37"
-          height={4}
+          height={3}
           showSpinner={true}
-          shadow="0 0 15px #D4AF37, 0 0 5px #D4AF37"
-          template='<div class="bar" role="bar"><div class="peg"></div></div><div class="spinner" role="spinner"><div class="om-spinner">ॐ</div></div>'
+          shadow="0 0 10px #D4AF37, 0 0 5px #D4AF37"
+          template='<div class="bar" role="bar"><div class="peg"></div></div><div class="spinner" role="spinner"><div class="modern-spinner"><div class="modern-spinner-inner"></div><div class="modern-spinner-inner2"></div></div></div>'
           zIndex={9999}
         />
         {children}
