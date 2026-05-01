@@ -357,56 +357,78 @@ export default function ChatPage() {
             </div>
           )}
 
-          {/* Input */}
-          <form
-            onSubmit={handleSubmit}
-            className="mt-3 flex items-end gap-2"
-          >
-            <button
-              type="button"
-              onClick={() => setShowModal(true)}
-              className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand-cream text-brand-dark ring-1 ring-brand-dark/15 hover:bg-white shadow-sm transition"
-              title="Enter Birth Details"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 4v16m8-8H4" />
-              </svg>
-            </button>
-            <div className="flex-1 rounded-2xl bg-white ring-1 ring-brand-dark/15 focus-within:ring-2 focus-within:ring-brand-gold/50">
-              <textarea
-                ref={textareaRef}
-                value={input}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-                placeholder="Ask about Jyotish, your chart, or planetary remedies…"
-                rows={1}
-                className="block w-full resize-none rounded-2xl bg-transparent px-4 py-3 text-sm text-[#1b1b1b] outline-none placeholder:text-brand-dark/40"
-                style={{ minHeight: "48px", maxHeight: "160px" }}
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={!input.trim() || streaming}
-              className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand-dark text-brand-cream shadow ring-1 ring-brand-gold/40 hover:bg-[#3A0707] disabled:opacity-40 transition"
-              aria-label="Send message"
-            >
-              {streaming ? (
-                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-                </svg>
-              ) : (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              )}
-            </button>
-          </form>
+          {/* Input / Limit reached */}
+          {(() => {
+            const userChatCount = messages.filter((m) => m.role === "user").length;
+            const maxChatsReached = userChatCount >= 3;
+            return maxChatsReached ? (
+              <div className="mt-3 flex flex-col items-center justify-center rounded-2xl bg-white p-6 text-center ring-1 ring-brand-dark/10 shadow-sm">
+                <p className="text-brand-dark/80 mb-4 font-semibold text-sm leading-relaxed">
+                  You have reached the maximum number of free questions. For a detailed and comprehensive Kundli analysis, please book a personal consultation with Guruji.
+                </p>
+                <a
+                  href={`https://wa.me/${ASTROLOGER_WHATSAPP}?text=${encodeURIComponent("Hari Om! I would like to book a detailed consultation.")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-brand-dark px-8 py-3 text-sm font-semibold text-brand-cream transition hover:bg-[#3A0808]"
+                >
+                  Book Consultation Now
+                </a>
+              </div>
+            ) : (
+              <>
+                <form
+                  onSubmit={handleSubmit}
+                  className="mt-3 flex items-end gap-2"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(true)}
+                    className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand-cream text-brand-dark ring-1 ring-brand-dark/15 hover:bg-white shadow-sm transition"
+                    title="Enter Birth Details"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 4v16m8-8H4" />
+                    </svg>
+                  </button>
+                  <div className="flex-1 rounded-2xl bg-white ring-1 ring-brand-dark/15 focus-within:ring-2 focus-within:ring-brand-gold/50">
+                    <textarea
+                      ref={textareaRef}
+                      value={input}
+                      onChange={handleInputChange}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Ask about Jyotish, your chart, or planetary remedies…"
+                      rows={1}
+                      className="block w-full resize-none rounded-2xl bg-transparent px-4 py-3 text-sm text-[#1b1b1b] outline-none placeholder:text-brand-dark/40"
+                      style={{ minHeight: "48px", maxHeight: "160px" }}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={!input.trim() || streaming}
+                    className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand-dark text-brand-cream shadow ring-1 ring-brand-gold/40 hover:bg-[#3A0707] disabled:opacity-40 transition"
+                    aria-label="Send message"
+                  >
+                    {streaming ? (
+                      <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                      </svg>
+                    ) : (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
+                  </button>
+                </form>
 
-          <p className="mt-2 text-center text-xs text-brand-dark/40">
-            Press Enter to send · Shift+Enter for new line
-          </p>
+                <p className="mt-2 text-center text-[10px] text-brand-dark/40">
+                  I am an AI and can make mistakes. Please consult with a professional for major life decisions.
+                </p>
+              </>
+            );
+          })()}
         </Container>
 
         {/* Multi-step Consultation Modal */}
