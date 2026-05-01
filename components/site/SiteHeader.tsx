@@ -21,6 +21,7 @@ export function SiteHeader() {
   const [open, setOpen] = React.useState(false);
   const [user, setUser] = React.useState<User | null>(null);
   const [checking, setChecking] = React.useState(true);
+  const [hoveredLink, setHoveredLink] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (!isSupabaseConfigured()) {
@@ -76,14 +77,23 @@ export function SiteHeader() {
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-6 md:flex">
+          <nav className="hidden items-center gap-1 md:flex">
             {navLinks.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-sm font-medium text-brand-dark/80 hover:text-brand-dark"
+                onMouseEnter={() => setHoveredLink(l.href)}
+                onMouseLeave={() => setHoveredLink(null)}
+                className="relative px-3 py-1.5 text-sm font-medium text-brand-dark/80 transition-colors hover:text-brand-dark"
               >
-                {l.label}
+                {hoveredLink === l.href && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 rounded-full bg-brand-gold/15"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">{l.label}</span>
               </Link>
             ))}
           </nav>

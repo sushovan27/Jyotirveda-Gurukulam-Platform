@@ -3,40 +3,33 @@
 import * as React from "react";
 import { SiteShell } from "@/components/site/SiteShell";
 import { Container } from "@/components/site/Container";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { AnimatePresence, motion } from "framer-motion";
+import { ConsultationModal } from "@/components/chat/ConsultationModal";
+import type { ConsultationDetails } from "@/components/chat/ConsultationModal";
+
+// ---------------------------------------------------------------------------
+// Constants
+// ---------------------------------------------------------------------------
+
+/** WhatsApp number for astrologer consultations (E.164 without '+') */
+const ASTROLOGER_WHATSAPP = "919999999999";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
+type MessageMetadata = {
+  isConsultationStart?: boolean;
+  name?: string;
+  dob?: string;
+  tob?: string;
+};
+
 type Message = {
   id: string;
   role: "user" | "assistant";
   content: string;
+  metadata?: MessageMetadata;
 };
-
-const kundliFormSchema = z.object({
-  name: z.string().min(1, "Name is required").max(100, "Name too long"),
-  dob: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Enter a valid date"),
-  tob: z.string().regex(/^\d{2}:\d{2}$/, "Enter a valid time (HH:MM)"),
-  pob: z.string().min(2, "Place of birth is required").max(150, "Too long"),
-});
-type KundliFormValues = z.infer<typeof kundliFormSchema>;
-
-const inputCls = "w-full rounded-xl border border-brand-dark/20 bg-white px-3 py-2.5 text-sm text-[#1b1b1b] outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/30 placeholder:text-brand-dark/40";
-
-function FormField({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-semibold text-brand-dark">{label}</label>
-      {children}
-      {error && <p className="text-xs text-red-600">{error}</p>}
-    </div>
-  );
-}
 
 // ---------------------------------------------------------------------------
 // Suggested questions
@@ -75,11 +68,17 @@ function TypingIndicator() {
 
 function MessageBubble({ message }: { message: Message }) {
   const isUser = message.role === "user";
+  const meta = message.metadata;
+
+  // Build a safe WhatsApp URL when consultation metadata is present
+  const whatsappUrl = React.useMemo(() => {
+    if (!meta?.isConsultationStart) return null;
+    const text = `Namaste! I'd like a consultation.\nName: ${meta.name ?? ""}\nDate of Birth: ${meta.dob ?? ""}\nTime of Birth: ${meta.tob ?? ""}`;
+    return `https://wa.me/${ASTROLOGER_WHATSAPP}?text=${encodeURIComponent(text)}`;
+  }, [meta]);
 
   return (
-    <div
-      className={`flex gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}
-    >
+    <div className={`flex gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}>
       {/* Avatar */}
       <div
         className={`mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-semibold ${
@@ -91,15 +90,29 @@ function MessageBubble({ message }: { message: Message }) {
         {isUser ? "You" : "ॐ"}
       </div>
 
-      {/* Bubble */}
-      <div
-        className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-          isUser
-            ? "rounded-tr-sm bg-brand-dark text-brand-cream"
-            : "rounded-tl-sm bg-white/80 text-[#1b1b1b] ring-1 ring-brand-dark/10"
-        }`}
-      >
-        {message.content || <TypingIndicator />}
+      {/* Bubble + optional WhatsApp CTA */}
+      <div className="flex max-w-[75%] flex-col gap-2">
+        <div
+          className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+            isUser
+              ? "rounded-tr-sm bg-brand-dark text-brand-cream"
+              : "rounded-tl-sm bg-white/80 text-[#1b1b1b] ring-1 ring-brand-dark/10"
+          }`}
+        >
+          {message.content || <TypingIndicator />}
+        </div>
+
+        {/* WhatsApp redirect button — only on consultation-start bot message */}
+        {!isUser && whatsappUrl && (
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 self-start rounded-xl bg-green-500 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-green-600"
+          >
+            📲 Send to Astrologer on WhatsApp
+          </a>
+        )}
       </div>
     </div>
   );
@@ -123,26 +136,36 @@ export default function ChatPage() {
   const [error, setError] = React.useState<string | null>(null);
   const [showModal, setShowModal] = React.useState(false);
 
-  const {
-    register,
-    handleSubmit: handleFormSubmit,
-    reset,
-    formState: { errors }
-  } = useForm<KundliFormValues>({
-    resolver: zodResolver(kundliFormSchema),
-  });
+  // Auto-trigger modal on first load
+  React.useEffect(() => {
+    setShowModal(true);
+  }, []);
 
-  const onDetailsSubmit = (data: KundliFormValues) => {
-    const text = `Here are my birth details for analysis:
-Name: ${data.name}
-Date of Birth: ${data.dob}
-Time of Birth: ${data.tob}
-City of Birth: ${data.pob}
-
-Please generate my chart and provide a comprehensive reading.`;
+  const onDetailsSubmit = (data: ConsultationDetails) => {
     setShowModal(false);
-    reset();
-    void sendMessage(text);
+
+    // Auto-send a user message with birth details
+    const text = `My name is ${data.name}, born on ${data.dob} at ${data.tob}`;
+    const userMsg: Message = {
+      id: `user-${Date.now()}`,
+      role: "user",
+      content: text,
+    };
+
+    // Immediate bot acknowledgement without an extra API call
+    const botMsg: Message = {
+      id: `bot-${Date.now()}`,
+      role: "assistant",
+      content: `Namaste ${data.name} 🙏! I have received your birth details — ${data.dob} at ${data.tob}. Your astrological chart holds profound wisdom. Would you like to connect directly with our expert astrologer for a deeper analysis?`,
+      metadata: {
+        isConsultationStart: true,
+        name: data.name,
+        dob: data.dob,
+        tob: data.tob,
+      },
+    };
+
+    setMessages((prev) => [...prev, userMsg, botMsg]);
   };
 
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
@@ -260,9 +283,18 @@ Please generate my chart and provide a comprehensive reading.`;
                 Vedic wisdom · Always available
               </div>
             </div>
-            <div className="ml-auto flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-green-400" />
-              <span className="text-xs text-brand-dark/60">Online</span>
+            <div className="ml-auto flex items-center gap-3">
+              <span className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-green-400" />
+                <span className="text-xs text-brand-dark/60">Online</span>
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowModal(true)}
+                className="rounded-full bg-brand-dark px-4 py-2 text-xs font-semibold text-brand-cream shadow-sm transition hover:bg-[#3A0808]"
+              >
+                Book Consultation
+              </button>
             </div>
           </div>
 
@@ -377,71 +409,12 @@ Please generate my chart and provide a comprehensive reading.`;
           </p>
         </Container>
 
-        {/* Birth Details Modal */}
-        <AnimatePresence>
-          {showModal && (
-            <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setShowModal(false)}
-                className="absolute inset-0 bg-brand-dark/40 backdrop-blur-sm"
-              />
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-md overflow-hidden rounded-3xl bg-brand-cream shadow-2xl ring-1 ring-brand-dark/10"
-              >
-                <div className="flex items-center justify-between border-b border-brand-dark/10 bg-white/50 px-6 py-5 backdrop-blur-md">
-                  <h2 className="text-xl font-bold text-brand-dark font-display">
-                    Enter Birth Details
-                  </h2>
-                  <button 
-                    onClick={() => setShowModal(false)} 
-                    className="rounded-full bg-brand-dark/5 p-2 text-brand-dark/60 hover:bg-brand-dark/10 hover:text-brand-dark"
-                  >
-                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                  </button>
-                </div>
-                <form onSubmit={handleFormSubmit(onDetailsSubmit)} className="p-6">
-                  <div className="grid gap-4">
-                    <FormField label="Full Name" error={errors.name?.message}>
-                      <input {...register("name")} type="text" placeholder="e.g. Arjun Sharma" className={inputCls} />
-                    </FormField>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <FormField label="Date of Birth" error={errors.dob?.message}>
-                        <input {...register("dob")} type="date" className={inputCls} />
-                      </FormField>
-                      <FormField label="Time of Birth" error={errors.tob?.message}>
-                        <input {...register("tob")} type="time" className={inputCls} />
-                      </FormField>
-                    </div>
-                    <FormField label="Place of Birth" error={errors.pob?.message}>
-                      <input {...register("pob")} type="text" placeholder="e.g. Mumbai, Maharashtra" className={inputCls} />
-                    </FormField>
-                  </div>
-                  <div className="mt-6 flex justify-end gap-3">
-                    <button 
-                      type="button"
-                      onClick={() => setShowModal(false)}
-                      className="rounded-full px-5 py-2.5 text-sm font-semibold text-brand-dark ring-1 ring-brand-dark/20 hover:bg-brand-dark/5"
-                    >
-                      Cancel
-                    </button>
-                    <button 
-                      type="submit"
-                      className="rounded-full bg-brand-dark px-5 py-2.5 text-sm font-semibold text-brand-cream hover:bg-[#3A0808] shadow-md"
-                    >
-                      Send Details
-                    </button>
-                  </div>
-                </form>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
+        {/* Multi-step Consultation Modal */}
+        <ConsultationModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          onSubmit={onDetailsSubmit}
+        />
       </main>
     </SiteShell>
   );
