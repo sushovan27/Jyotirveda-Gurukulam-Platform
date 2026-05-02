@@ -12,6 +12,7 @@ const exploreLinks = [
   { href: "/horoscope", label: "Daily Horoscope" },
   { href: "/courses", label: "Courses" },
   { href: "/ebooks", label: "eBooks" },
+  { href: "/blog", label: "Blog" },
   { href: "/about", label: "About Us" },
 ];
 

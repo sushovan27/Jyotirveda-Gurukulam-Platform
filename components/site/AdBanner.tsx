@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function AdBanner() {
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
+    setMounted(true);
     try {
       // @ts-ignore
       (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -19,14 +22,16 @@ export function AdBanner() {
         <span className="text-[10px] text-gray-400 mt-1">Google AdSense will display here on the live domain.</span>
       </div>
       
-      <ins
-        className="adsbygoogle w-full relative z-10"
-        style={{ display: "block", minHeight: "90px" }}
-        data-ad-client="ca-pub-2213817145109266"
-        data-ad-slot="auto"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      />
+      {mounted && (
+        <ins
+          className="adsbygoogle w-full relative z-10"
+          style={{ display: "block", minHeight: "90px" }}
+          data-ad-client="ca-pub-2213817145109266"
+          data-ad-slot="auto"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      )}
     </div>
   );
 }

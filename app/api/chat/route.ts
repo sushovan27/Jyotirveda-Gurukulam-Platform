@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
     assertSameOrigin(request);
 
     const forwardedFor = request.headers.get("x-forwarded-for");
-    const ip = forwardedFor ? forwardedFor.split(",")[0].trim() : "127.0.0.1";
+    const ip = request.headers.get("x-real-ip") || (forwardedFor ? forwardedFor.split(",")[0].trim() : "127.0.0.1");
     const rateLimitResponse = rateLimit(ip, 20, 60000);
     if (rateLimitResponse) return rateLimitResponse;
 

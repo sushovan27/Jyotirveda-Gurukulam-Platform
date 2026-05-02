@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
   try {
     assertSameOrigin(request);
 
-    const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
+    const ip = request.headers.get("x-real-ip") || request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "127.0.0.1";
     const rateLimitResponse = rateLimit(ip, 10, 60000); // 10 charts per minute
     if (rateLimitResponse) return rateLimitResponse;
 
@@ -209,13 +209,14 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
 
     if (user) {
-      await (supabase.from("kundli_reports") as any).upsert({
+      // @ts-expect-error - Table not yet in generated database types
+      await supabase.from("kundli_reports").upsert({
         user_id: user.id,
         name: payload.name,
         dob: payload.birthDate,
         tob: payload.birthTime,
         pob: payload.city,
-        chart_data: response as any,
+        chart_data: response,
       }, { onConflict: "user_id" });
 
       if (process.env.RESEND_API_KEY && user.email) {
